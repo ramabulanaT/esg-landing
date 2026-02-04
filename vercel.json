@@ -1,6 +1,0 @@
-{
-  "rewrites": [
-    { "source": "/api/:path*", "destination": "https://intellimat-repository-production-199f.up.railway.app/api/:path*" },
-    { "source": "/health", "destination": "https://intellimat-repository-production-199f.up.railway.app/health" }
-  ]
-}
