@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"/><title>AI Assistant | ESG Navigator</title><meta name="viewport" content="width=device-width,initial-scale=1"/></head>
+<body style="margin:0;font-family:system-ui;background:#050505;color:#fff;min-height:100vh;display:flex;flex-direction:column;background:radial-gradient(circle at top left,#1c1c1c 0,#050505 48%,#000 100%)">
+<header style="border-bottom:1px solid rgba(255,255,255,0.08);backdrop-filter:blur(10px);position:sticky;top:0;z-index:10;background:rgba(5,5,5,0.94)"><div style="max-width:1120px;margin:0 auto;padding:0 1.5rem;display:flex;align-items:center;justify-content:space-between;height:72px"><a href="/" style="display:flex;align-items:center;gap:.75rem;font-size:.875rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,0.78);text-decoration:none"><span style="width:32px;height:32px;border-radius:999px;border:1px solid #d4af37;display:grid;place-items:center;font-size:.7rem;color:#d4af37;font-weight:700">ESG</span><span>ESG Navigator</span></a><nav style="display:flex;gap:1.5rem;align-items:center"><a href="/" style="font-size:.8rem;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,0.55);text-decoration:none">Home</a><a href="/dashboard.html" style="font-size:.8rem;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,0.55);text-decoration:none">Dashboard</a><a href="/assistant.html" style="font-size:.8rem;letter-spacing:.06em;text-transform:uppercase;color:#d4af37;text-decoration:none">AI Assistant</a></nav></div></header>
+<div style="max-width:860px;width:100%;margin:0 auto;padding:0 1.5rem;flex:1;display:flex;flex-direction:column">
+<div style="padding:1.5rem 0 1rem;border-bottom:1px solid rgba(255,255,255,0.08)"><h1 style="font-size:1.15rem;font-weight:600">ESG Navigator AI Assistant</h1><p style="font-size:.8rem;color:rgba(255,255,255,0.4);margin-top:.25rem">Powered by 9 specialised AI agents</p></div>
+<div id="msgs" style="flex:1;overflow-y:auto;padding:1.5rem 0;display:flex;flex-direction:column;gap:1rem"></div>
+<div id="qp" style="display:flex;flex-wrap:wrap;gap:.5rem;padding:.75rem 0"></div>
+<div style="border-top:1px solid rgba(255,255,255,0.08);padding:1rem 0 1.5rem;display:flex;gap:.75rem;align-items:flex-end"><div style="flex:1;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:.75rem 1rem"><textarea id="inp" rows="1" placeholder="Ask about supplier ESG, compliance, or risk..." style="width:100%;background:none;border:none;color:#fff;font-family:system-ui;font-size:.88rem;resize:none;outline:none;line-height:1.5"></textarea></div><button onclick="send()" style="width:44px;height:44px;border-radius:10px;border:none;background:#d4af37;color:#000;cursor:pointer;display:grid;place-items:center;font-size:1.1rem;font-weight:700">&#8594;</button></div>
+</div>
+<footer style="border-top:1px solid rgba(255,255,255,0.08);padding:1.25rem 0;text-align:center;font-size:.72rem;color:rgba(255,255,255,0.2)">&#169; 2026 TIS Holdings Pty Ltd. Powered by Anthropic Claude.</footer>
+<script>
+var API="https://intellimat-repository-production-199f.up.railway.app",SD=null,msgs=document.getElementById("msgs"),qp=document.getElementById("qp"),inp=document.getElementById("inp");
+fetch(API+"/api/suppliers").then(r=>r.json()).then(d=>{if(d.success)SD=d.suppliers}).catch(()=>{});
+var prompts=[["Portfolio overview","Show me the ESG scores for all suppliers"],["Risk analysis","Which suppliers have the highest risk?"],["ISO compliance","What ISO certifications do my suppliers hold?"],["Compare suppliers","Compare Eskom and Siemens on ESG performance"],["Audit schedule","What are the upcoming audit dates?"],["Executive summary","Generate an executive summary of portfolio ESG health"]];
+prompts.forEach(function(p){var b=document.createElement("button");b.textContent=p[0];b.style.cssText="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);color:rgba(255,255,255,0.65);padding:.45rem .85rem;border-radius:8px;font-size:.78rem;cursor:pointer;font-family:system-ui";b.onclick=function(){inp.value=p[1];send()};qp.appendChild(b)});
+addMsg("assistant","Welcome to the ESG Navigator AI Assistant. I can help with supplier ESG analysis, compliance gaps, risk scoring, and recommendations across ISO 14001, 45001, 50001, GISTM, and ISSB frameworks.
+
+What would you like to explore?");
+function addMsg(r,t){var d=document.createElement("div");d.style.cssText="max-width:85%;padding:1rem 1.25rem;border-radius:12px;font-size:.88rem;line-height:1.65";if(r==="user"){d.style.cssText+=";align-self:flex-end;background:rgba(212,175,55,0.12);border:1px solid rgba(212,175,55,0.2)";d.textContent=t}else{d.style.cssText+=";align-self:flex-start;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08)";d.innerHTML="<div style='font-size:.68rem;text-transform:uppercase;letter-spacing:.06em;color:#d4af37;margin-bottom:.5rem;font-weight:600'>ESG Navigator AI</div><div>"+t.replace(/\*\*(.*?)\*\*/g,"<strong>\</strong>").replace(/
+/g,"<br>")+"</div>"}msgs.appendChild(d);msgs.scrollTop=msgs.scrollHeight}
+if(l.match(/risk|compliance|violation|issue/)){var hi=SD.filter(function(s){return s.riskLevel==="HIGH"}),issues=[];SD.forEach(function(s){(s.compliance&&s.compliance.violations||[]).forEach(function(v){issues.push("**"+s.name+"** - "+v.type+" ("+v.severity+"): "+v.description+" ["+v.status+"]")})});return"**Risk Analysis**
+
+**High-risk:** "+hi.map(function(s){return s.name}).join(", ")+"
+
+**Open issues ("+issues.length+"):**
+
+"+issues.join("
+
+")+"
+
+**Action:** Prioritise Eskom environmental violations."}
+if(l.match(/compare|vs/)){var m=SD.filter(function(s){return l.indexOf(s.name.split(" ")[0].toLowerCase())>=0});if(m.length>=2){var a=m[0],b=m[1];return"**"+a.name+" vs "+b.name+"**
+
+ESG: "+a.esgScore+" vs "+b.esgScore+"
+Environmental: "+a.esgBreakdown.environmental+" vs "+b.esgBreakdown.environmental+"
+Social: "+a.esgBreakdown.social+" vs "+b.esgBreakdown.social+"
+Governance: "+a.esgBreakdown.governance+" vs "+b.esgBreakdown.governance+"
+Risk: "+a.riskLevel+" vs "+b.riskLevel+"
+
+"+(a.esgScore>b.esgScore?a.name:b.name)+" leads overall."}}
+if(l.match(/audit|schedule|upcoming/)){return"**Audit Schedule**
+
+"+SD.map(function(s){return"**"+s.name+"** - Next: "+s.nextAuditDue}).join("
+
+")+"
+
+Prepare documentation 30 days before each date."}
+if(l.match(/iso|certification/)){return"**ISO Certifications**
+
+"+SD.map(function(s){return"**"+s.name+":** "+(s.certifications||[]).join(", ")}).join("
+
+")+"
+
+**Gaps:** Eskom and Sasol lack ISO 45001 and 50001."}
+if(l.match(/executive|summary|board/)){var av=Math.round(SD.reduce(function(a,s){return a+s.esgScore},0)/SD.length),ti=SD.reduce(function(a,s){return a+s.complianceIssues},0);return"**Executive Summary**
+
+Avg ESG: "+av+"/100 | Suppliers: "+SD.length+" | Open issues: "+ti+"
+
+**Top:** Siemens SA (88) - carbon neutral, multi-ISO certified
+**Priority:** Eskom (65) - 3 violations, environmental focus needed
+
+**Q1 2026:** Focus Eskom remediation and Sasol air quality plans."}
+return null}
+</script></body></html>
