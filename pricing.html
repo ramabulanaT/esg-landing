@@ -1,208 +1,362 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"><title>Register | ESG Navigator</title>
+<meta charset="UTF-8"><title>Pricing | ESG Navigator</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:system-ui,-apple-system,sans-serif;background:#fafafa;color:#1a1a1a;min-height:100vh;display:flex;flex-direction:column}
-header{border-bottom:1px solid #e8e8e8;background:#fff}
+body{font-family:system-ui,-apple-system,sans-serif;background:#fafafa;color:#1a1a1a;min-height:100vh}
+header{border-bottom:1px solid #e8e8e8;background:#fff;position:sticky;top:0;z-index:50}
 .hdr{max-width:1200px;margin:0 auto;padding:0 1.5rem;display:flex;align-items:center;justify-content:space-between;height:72px}
 .logo{display:flex;align-items:center;gap:.75rem;font-size:.875rem;letter-spacing:.12em;text-transform:uppercase;color:#1a1a1a;text-decoration:none;font-weight:600}
 .logo-icon{width:34px;height:34px;border-radius:999px;background:#d4af37;display:grid;place-items:center;font-size:.65rem;color:#fff;font-weight:700}
 nav a{font-size:.8rem;color:#666;text-decoration:none;margin-left:1.5rem}
 nav a:hover{color:#d4af37}
-.main{flex:1;display:flex;align-items:center;justify-content:center;padding:2rem 1.5rem}
-.reg-container{display:grid;grid-template-columns:1fr 1fr;gap:3rem;max-width:960px;width:100%}
-.reg-info{padding:2rem 0}
-.reg-info h1{font-size:1.5rem;font-weight:700;color:#1a1a1a;margin-bottom:.75rem}
-.reg-info p{font-size:.85rem;color:#777;line-height:1.65;margin-bottom:1.5rem}
-.plan-selected{background:#fff;border:1px solid #e8e8e8;border-radius:12px;padding:1.25rem;margin-bottom:1.5rem}
-.plan-selected .ps-label{font-size:.6rem;text-transform:uppercase;letter-spacing:.1em;color:#d4af37;font-weight:600;margin-bottom:.35rem}
-.plan-selected .ps-name{font-size:1rem;font-weight:700;color:#1a1a1a}
-.plan-selected .ps-price{font-size:.82rem;color:#888;margin-top:.15rem}
-.plan-selected .ps-change{font-size:.72rem;color:#d4af37;text-decoration:none;margin-top:.5rem;display:inline-block}
-.benefits{list-style:none;padding:0}
-.benefits li{font-size:.78rem;color:#555;padding:.35rem 0 .35rem 1.2rem;position:relative;line-height:1.45}
-.benefits li::before{content:"\2713";position:absolute;left:0;color:#d4af37;font-weight:700}
-.trust-row{display:flex;gap:1.25rem;margin-top:1.5rem;flex-wrap:wrap}
-.trust-item{font-size:.65rem;color:#aaa;display:flex;align-items:center;gap:.3rem}
-.trust-item strong{color:#888}
-.reg-form-wrap{background:#fff;border:1px solid #e8e8e8;border-radius:16px;padding:2rem;box-shadow:0 2px 8px rgba(0,0,0,0.04)}
-.reg-form-wrap h2{font-size:1.1rem;font-weight:700;color:#1a1a1a;margin-bottom:.25rem}
-.reg-form-wrap .sub{font-size:.78rem;color:#999;margin-bottom:1.5rem}
-.form-row{margin-bottom:1rem}
-.form-row.double{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
-.form-row label{display:block;font-size:.7rem;font-weight:600;color:#555;margin-bottom:.3rem;text-transform:uppercase;letter-spacing:.04em}
-.form-row input,.form-row select{width:100%;padding:.65rem .85rem;border:1px solid #ddd;border-radius:8px;font-size:.82rem;font-family:system-ui;color:#1a1a1a;transition:border-color .2s;background:#fff}
-.form-row input:focus,.form-row select:focus{outline:none;border-color:#d4af37;box-shadow:0 0 0 3px rgba(212,175,55,0.1)}
-.form-row input::placeholder{color:#ccc}
-.divider{height:1px;background:#eee;margin:1.25rem 0}
-.form-row .hint{font-size:.62rem;color:#bbb;margin-top:.25rem}
-.checkbox-row{display:flex;align-items:flex-start;gap:.5rem;margin:1rem 0}
-.checkbox-row input[type="checkbox"]{margin-top:.15rem;accent-color:#d4af37}
-.checkbox-row label{font-size:.72rem;color:#777;line-height:1.45}
-.checkbox-row a{color:#d4af37;text-decoration:none}
-.submit-btn{width:100%;padding:.8rem;border:none;border-radius:10px;background:linear-gradient(135deg,#d4af37,#e8cc6e);color:#000;font-size:.88rem;font-weight:600;cursor:pointer;transition:all .2s;font-family:system-ui;margin-top:.5rem}
-.submit-btn:hover{box-shadow:0 4px 16px rgba(212,175,55,0.25);transform:translateY(-1px)}
-.or-divider{text-align:center;margin:1rem 0;font-size:.72rem;color:#ccc;position:relative}
-.or-divider::before,.or-divider::after{content:"";position:absolute;top:50%;height:1px;background:#eee;width:40%}
-.or-divider::before{left:0}
-.or-divider::after{right:0}
-.alt-login{display:flex;gap:.75rem}
-.alt-btn{flex:1;padding:.6rem;border:1px solid #e8e8e8;border-radius:8px;background:#fff;font-size:.75rem;font-weight:500;color:#555;cursor:pointer;text-align:center;transition:border-color .2s;font-family:system-ui}
-.alt-btn:hover{border-color:#d4af37;color:#b8960b}
-.login-link{text-align:center;margin-top:1rem;font-size:.75rem;color:#999}
-.login-link a{color:#d4af37;text-decoration:none;font-weight:600}
-.success{display:none;text-align:center;padding:3rem 2rem}
-.success h2{font-size:1.3rem;font-weight:700;color:#1a1a1a;margin-bottom:.75rem}
-.success p{font-size:.85rem;color:#777;line-height:1.6;margin-bottom:1.5rem}
-.success .chk-circle{width:64px;height:64px;border-radius:50%;background:rgba(34,197,94,0.1);display:grid;place-items:center;margin:0 auto 1.25rem;font-size:1.5rem;color:#22c55e}
-footer{border-top:1px solid #e8e8e8;padding:1rem 0;text-align:center;background:#fff}
+nav a.active{color:#d4af37;font-weight:600}
+
+/* Hero */
+.hero{text-align:center;padding:3.5rem 1.5rem 2rem;background:linear-gradient(135deg,#1a1a2e 0%,#16213e 50%,#0f3460 100%);color:#fff}
+.hero h1{font-size:2rem;font-weight:700;margin-bottom:.5rem;letter-spacing:-.02em}
+.hero p{font-size:.9rem;color:rgba(255,255,255,.7);max-width:560px;margin:0 auto 1.75rem;line-height:1.6}
+.badge-row{display:flex;justify-content:center;gap:.75rem;flex-wrap:wrap;margin-bottom:1.5rem}
+.badge{font-size:.6rem;padding:.3rem .7rem;border-radius:20px;background:rgba(212,175,55,.15);color:#d4af37;font-weight:600;letter-spacing:.04em;text-transform:uppercase}
+
+/* Toggle */
+.toggle-wrap{display:flex;align-items:center;justify-content:center;gap:.75rem;margin-bottom:.5rem}
+.toggle-label{font-size:.8rem;color:rgba(255,255,255,.6);cursor:pointer;transition:color .2s}
+.toggle-label.active{color:#fff;font-weight:600}
+.toggle{width:48px;height:26px;background:#333;border-radius:13px;cursor:pointer;position:relative;transition:background .3s}
+.toggle.on{background:#d4af37}
+.toggle::after{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;background:#fff;border-radius:50%;transition:transform .3s}
+.toggle.on::after{transform:translateX(22px)}
+.save-tag{font-size:.65rem;color:#22c55e;font-weight:600;margin-left:.25rem}
+
+/* Plans Grid */
+.plans-section{max-width:1200px;margin:0 auto;padding:2rem 1.5rem 3rem}
+.plans-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.25rem;margin-bottom:3rem}
+.plan-card{background:#fff;border:1px solid #e8e8e8;border-radius:16px;padding:1.75rem 1.5rem;position:relative;transition:all .3s}
+.plan-card:hover{box-shadow:0 8px 30px rgba(0,0,0,.08);transform:translateY(-2px)}
+.plan-card.featured{border:2px solid #d4af37;box-shadow:0 4px 20px rgba(212,175,55,.12)}
+.plan-card.featured::before{content:"MOST POPULAR";position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:#d4af37;color:#000;font-size:.55rem;font-weight:700;padding:.25rem .75rem;border-radius:10px;letter-spacing:.06em}
+.plan-tier{font-size:.6rem;text-transform:uppercase;letter-spacing:.1em;color:#d4af37;font-weight:600;margin-bottom:.5rem}
+.plan-name{font-size:1.15rem;font-weight:700;color:#1a1a1a;margin-bottom:.25rem}
+.plan-desc{font-size:.72rem;color:#999;margin-bottom:1.25rem;line-height:1.5}
+.plan-price{font-size:1.75rem;font-weight:700;color:#1a1a1a;margin-bottom:.15rem}
+.plan-price span{font-size:.75rem;font-weight:400;color:#999}
+.plan-period{font-size:.65rem;color:#bbb;margin-bottom:1.25rem}
+.plan-cta{display:block;width:100%;padding:.7rem;border-radius:10px;font-size:.8rem;font-weight:600;text-align:center;text-decoration:none;cursor:pointer;transition:all .2s;border:none;font-family:system-ui}
+.plan-cta.primary{background:linear-gradient(135deg,#d4af37,#e8cc6e);color:#000}
+.plan-cta.primary:hover{box-shadow:0 4px 16px rgba(212,175,55,.3);transform:translateY(-1px)}
+.plan-cta.outline{background:transparent;border:1.5px solid #d4af37;color:#d4af37}
+.plan-cta.outline:hover{background:rgba(212,175,55,.06)}
+.plan-cta.dark{background:#1a1a2e;color:#fff}
+.plan-cta.dark:hover{background:#0f3460}
+.plan-divider{height:1px;background:#eee;margin:1.25rem 0}
+.plan-features{list-style:none;padding:0}
+.plan-features li{font-size:.72rem;color:#555;padding:.3rem 0 .3rem 1.2rem;position:relative;line-height:1.45}
+.plan-features li::before{content:"\2713";position:absolute;left:0;color:#d4af37;font-weight:700;font-size:.7rem}
+.plan-features li.no::before{content:"\2717";color:#ddd}
+.plan-features li.no{color:#ccc}
+
+/* Sections */
+.section{max-width:1200px;margin:0 auto;padding:0 1.5rem 3rem}
+.section-title{font-size:1.25rem;font-weight:700;color:#1a1a1a;margin-bottom:.35rem}
+.section-sub{font-size:.8rem;color:#999;margin-bottom:1.5rem}
+
+/* Add-ons */
+.addons-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+.addon{background:#fff;border:1px solid #e8e8e8;border-radius:12px;padding:1.25rem;transition:border-color .2s}
+.addon:hover{border-color:#d4af37}
+.addon-icon{font-size:1.25rem;margin-bottom:.5rem}
+.addon-name{font-size:.82rem;font-weight:600;color:#1a1a1a;margin-bottom:.2rem}
+.addon-desc{font-size:.68rem;color:#999;line-height:1.5;margin-bottom:.65rem}
+.addon-price{font-size:.85rem;font-weight:700;color:#d4af37}
+.addon-price span{font-size:.65rem;font-weight:400;color:#999}
+
+/* Sector Modules */
+.sector-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+.sector{background:#fff;border:1px solid #e8e8e8;border-radius:12px;padding:1.25rem;transition:all .2s}
+.sector:hover{border-color:#d4af37;box-shadow:0 4px 12px rgba(0,0,0,.04)}
+.sector-tag{font-size:.55rem;text-transform:uppercase;letter-spacing:.08em;color:#fff;background:#1a1a2e;padding:.2rem .5rem;border-radius:4px;display:inline-block;margin-bottom:.5rem;font-weight:600}
+.sector-name{font-size:.88rem;font-weight:700;color:#1a1a1a;margin-bottom:.2rem}
+.sector-desc{font-size:.68rem;color:#999;line-height:1.5;margin-bottom:.65rem}
+.sector-price{font-size:.82rem;font-weight:700;color:#1a1a1a}
+.sector-price span{font-size:.65rem;color:#999;font-weight:400}
+.sector-items{list-style:none;padding:0;margin-top:.5rem}
+.sector-items li{font-size:.65rem;color:#777;padding:.15rem 0 .15rem .9rem;position:relative}
+.sector-items li::before{content:"•";position:absolute;left:0;color:#d4af37}
+
+/* Comparison Table */
+.compare-wrap{overflow-x:auto;margin-top:1.5rem}
+table{width:100%;border-collapse:collapse;font-size:.72rem}
+thead th{background:#1a1a2e;color:#fff;padding:.65rem .75rem;text-align:left;font-weight:600;font-size:.65rem;text-transform:uppercase;letter-spacing:.04em;position:sticky;top:72px}
+thead th:first-child{border-radius:8px 0 0 0}
+thead th:last-child{border-radius:0 8px 0 0}
+tbody td{padding:.6rem .75rem;border-bottom:1px solid #f0f0f0;color:#555}
+tbody tr:hover{background:#fafafa}
+tbody td:first-child{font-weight:600;color:#1a1a1a;font-size:.7rem}
+.check{color:#d4af37;font-weight:700;text-align:center}
+.dash{color:#ddd;text-align:center}
+.cat-row td{background:#f5f5f5;font-weight:700;color:#1a1a1a;font-size:.68rem;text-transform:uppercase;letter-spacing:.04em}
+
+/* Volume Discounts */
+.discount-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+.discount-card{background:#fff;border:1px solid #e8e8e8;border-radius:12px;padding:1.25rem;text-align:center;transition:all .2s}
+.discount-card:hover{border-color:#d4af37}
+.disc-pct{font-size:1.5rem;font-weight:700;color:#d4af37;margin-bottom:.25rem}
+.disc-term{font-size:.82rem;font-weight:600;color:#1a1a1a;margin-bottom:.15rem}
+.disc-desc{font-size:.68rem;color:#999}
+
+/* Payment */
+.payment-info{background:#fff;border:1px solid #e8e8e8;border-radius:12px;padding:1.75rem;display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-top:1.5rem}
+.pay-col h4{font-size:.82rem;font-weight:700;color:#1a1a1a;margin-bottom:.5rem}
+.pay-col p{font-size:.72rem;color:#777;line-height:1.6}
+.pay-methods{display:flex;gap:.5rem;margin-top:.5rem;flex-wrap:wrap}
+.pay-method{font-size:.62rem;padding:.25rem .5rem;background:#f5f5f5;border-radius:4px;color:#555;font-weight:500}
+
+/* CTA Bottom */
+.cta-bottom{background:linear-gradient(135deg,#1a1a2e,#0f3460);border-radius:16px;padding:2.5rem;text-align:center;margin-top:3rem;color:#fff}
+.cta-bottom h2{font-size:1.5rem;font-weight:700;margin-bottom:.5rem}
+.cta-bottom p{font-size:.82rem;color:rgba(255,255,255,.7);margin-bottom:1.5rem;max-width:480px;margin-left:auto;margin-right:auto}
+.cta-buttons{display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap}
+.cta-btn{padding:.7rem 1.5rem;border-radius:10px;font-size:.8rem;font-weight:600;text-decoration:none;transition:all .2s;border:none;cursor:pointer;font-family:system-ui}
+.cta-btn.gold{background:linear-gradient(135deg,#d4af37,#e8cc6e);color:#000}
+.cta-btn.gold:hover{box-shadow:0 4px 16px rgba(212,175,55,.3)}
+.cta-btn.white{background:transparent;border:1.5px solid rgba(255,255,255,.3);color:#fff}
+.cta-btn.white:hover{border-color:#fff}
+
+footer{border-top:1px solid #e8e8e8;padding:1.25rem 0;text-align:center;background:#fff}
 footer .copy{font-size:.62rem;color:#ccc}
 footer a{color:#d4af37;text-decoration:none}
-@media(max-width:768px){.reg-container{grid-template-columns:1fr}.form-row.double{grid-template-columns:1fr}}
+
+@media(max-width:900px){
+.plans-grid{grid-template-columns:repeat(2,1fr)}
+.addons-grid,.sector-grid,.discount-grid{grid-template-columns:1fr 1fr}
+.payment-info{grid-template-columns:1fr}
+}
+@media(max-width:600px){
+.plans-grid,.addons-grid,.sector-grid,.discount-grid{grid-template-columns:1fr}
+.hero h1{font-size:1.5rem}
+}
 </style>
 </head>
 <body>
 
 <header><div class="hdr">
 <a href="/" class="logo"><span class="logo-icon">ESG</span> ESG Navigator</a>
-<nav><a href="/">Home</a><a href="/pricing.html">Pricing</a><a href="/training.html">Training</a></nav>
+<nav><a href="/">Home</a><a href="/dashboard.html">Dashboard</a><a href="/assistant.html">Assistant</a><a href="/pricing.html" class="active">Pricing</a><a href="/register.html">Register</a><a href="/training.html">Training</a></nav>
 </div></header>
 
-<div class="main">
-<div class="reg-container">
-
-<!-- Left Info Panel -->
-<div class="reg-info">
-<h1>Start Your ESG Compliance Journey</h1>
-<p>Create your ESG Navigator account to access AI-powered compliance intelligence across Mining, Health, Financial Services, and Education.</p>
-
-<div class="plan-selected" id="plan-info">
-<div class="ps-label">Selected Plan</div>
-<div class="ps-name" id="plan-name">Free Trial</div>
-<div class="ps-price" id="plan-price">14 days free — no credit card required</div>
-<a href="/pricing.html" class="ps-change">Change plan &rarr;</a>
+<!-- HERO -->
+<div class="hero">
+<div class="badge-row">
+<span class="badge">IBM Watsonx Partner</span>
+<span class="badge">Anthropic Claude AI</span>
+<span class="badge">AWS Cloud</span>
+<span class="badge">ISO Standards4Sustainability</span>
 </div>
-
-<ul class="benefits">
-<li>14-day free trial with no commitment</li>
-<li>Access to ESG Compliance AI agent</li>
-<li>Sample company dashboard preview</li>
-<li>Upgrade to paid plan anytime</li>
-<li>Data protected under POPIA</li>
-<li>Cancel anytime — no lock-in</li>
-</ul>
-
-<div class="trust-row">
-<div class="trust-item"><strong>POPIA</strong> compliant</div>
-<div class="trust-item"><strong>SOC 2</strong> pathway</div>
-<div class="trust-item"><strong>AWS</strong> hosted</div>
-<div class="trust-item"><strong>ISO 27001</strong> aligned</div>
+<h1>Simple, Transparent Pricing</h1>
+<p>AI-powered ESG-GRC compliance intelligence built for African enterprises. Choose the plan that fits your organisation.</p>
+<div class="toggle-wrap">
+<span class="toggle-label active" id="lbl-m">Monthly</span>
+<div class="toggle" id="billing-toggle" onclick="toggleBilling()"></div>
+<span class="toggle-label" id="lbl-a">Annual</span>
+<span class="save-tag">Save 12%</span>
 </div>
 </div>
 
-<!-- Right Form -->
-<div class="reg-form-wrap" id="form-wrap">
-<h2>Create Your Account</h2>
-<div class="sub">Already have an account? <a href="#" style="color:#d4af37;text-decoration:none">Sign in</a></div>
-
-<div id="reg-form">
-<div class="form-row double">
-<div><label>First Name</label><input type="text" placeholder="Terry" required></div>
-<div><label>Last Name</label><input type="text" placeholder="Ramabulana" required></div>
-</div>
-<div class="form-row"><label>Work Email</label><input type="email" placeholder="you@company.co.za" required><div class="hint">We'll send your verification link here</div></div>
-<div class="form-row"><label>Company Name</label><input type="text" placeholder="Your organisation" required></div>
-<div class="form-row double">
-<div><label>Industry</label><select required>
-<option value="">Select sector</option>
-<option>Mining</option>
-<option>Financial Services</option>
-<option>Health</option>
-<option>Education</option>
-<option>Manufacturing</option>
-<option>Energy & Utilities</option>
-<option>Technology</option>
-<option>Government</option>
-<option>Other</option>
-</select></div>
-<div><label>Company Size</label><select required>
-<option value="">Select size</option>
-<option>1-10 employees</option>
-<option>11-50 employees</option>
-<option>51-200 employees</option>
-<option>201-1000 employees</option>
-<option>1000+ employees</option>
-</select></div>
-</div>
-<div class="form-row"><label>Country</label><select required>
-<option value="">Select country</option>
-<option selected>South Africa</option>
-<option>Botswana</option><option>Namibia</option><option>Mozambique</option><option>Zimbabwe</option><option>Zambia</option>
-<option>Kenya</option><option>Tanzania</option><option>Rwanda</option><option>Uganda</option><option>Ethiopia</option>
-<option>Nigeria</option><option>Ghana</option><option>DRC</option>
-<option>Egypt</option><option>Morocco</option><option>Saudi Arabia</option><option>UAE</option>
-<option>India</option><option>Singapore</option><option>Australia</option>
-<option>United Kingdom</option><option>Brazil</option><option>Canada</option>
-<option>Other</option>
-</select></div>
-
-<div class="divider"></div>
-
-<div class="form-row"><label>Password</label><input type="password" placeholder="Minimum 8 characters" required><div class="hint">At least 8 characters with one uppercase, one number, and one special character</div></div>
-<div class="form-row"><label>Confirm Password</label><input type="password" placeholder="Confirm your password" required></div>
-
-<div class="checkbox-row">
-<input type="checkbox" id="terms" required>
-<label for="terms">I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>, and consent to the processing of my personal information in accordance with POPIA.</label>
-</div>
-<div class="checkbox-row">
-<input type="checkbox" id="marketing">
-<label for="marketing">I'd like to receive ESG compliance insights, product updates, and training announcements from TIS Holdings.</label>
+<!-- PLANS -->
+<div class="plans-section">
+<div class="plans-grid" id="plans-grid">
+<!-- Rendered by JS -->
 </div>
 
-<button class="submit-btn" onclick="submitForm()">Create Account &rarr;</button>
-
-<div class="or-divider">or continue with</div>
-<div class="alt-login">
-<button class="alt-btn">Microsoft SSO</button>
-<button class="alt-btn">Google Workspace</button>
+<!-- ADD-ONS -->
+<div class="section">
+<div class="section-title">Consumption Add-Ons</div>
+<div class="section-sub">Scale your plan with additional capacity as you grow</div>
+<div class="addons-grid" id="addons-grid"></div>
 </div>
 
-<div class="login-link">Already registered? <a href="#">Sign in to your account</a></div>
+<!-- SECTOR MODULES -->
+<div class="section">
+<div class="section-title">Sector-Specific Modules</div>
+<div class="section-sub">Deep compliance frameworks tailored to your industry</div>
+<div class="sector-grid" id="sector-grid"></div>
 </div>
 
-<div class="success" id="success">
-<div class="chk-circle">&#10003;</div>
-<h2>Account Created Successfully</h2>
-<p>We've sent a verification email to your address. Please check your inbox and click the verification link to activate your ESG Navigator account.</p>
-<p style="font-size:.78rem;color:#999">Didn't receive it? Check your spam folder or <a href="#" style="color:#d4af37;text-decoration:none">resend verification email</a>.</p>
-<a href="/dashboard.html" class="submit-btn" style="display:inline-block;text-decoration:none;max-width:300px;margin-top:.5rem">Go to Dashboard &rarr;</a>
+<!-- COMPARISON TABLE -->
+<div class="section">
+<div class="section-title">Full Feature Comparison</div>
+<div class="section-sub">Everything included at each tier</div>
+<div class="compare-wrap" id="compare-wrap"></div>
+</div>
+
+<!-- VOLUME DISCOUNTS -->
+<div class="section">
+<div class="section-title">Volume &amp; Commitment Discounts</div>
+<div class="section-sub">Lock in savings with longer commitments</div>
+<div class="discount-grid">
+<div class="discount-card"><div class="disc-pct">12%</div><div class="disc-term">1-Year Commitment</div><div class="disc-desc">Annual billing, paid upfront or quarterly</div></div>
+<div class="discount-card"><div class="disc-pct">18%</div><div class="disc-term">2-Year Commitment</div><div class="disc-desc">Best value for growing organisations</div></div>
+<div class="discount-card"><div class="disc-pct">25%</div><div class="disc-term">3-Year Commitment</div><div class="disc-desc">Maximum savings, dedicated success manager</div></div>
+</div>
+
+<!-- PAYMENT INFO -->
+<div class="payment-info">
+<div class="pay-col">
+<h4>Payment Methods</h4>
+<p>We accept multiple payment methods for your convenience across Africa and globally.</p>
+<div class="pay-methods">
+<span class="pay-method">Stripe</span>
+<span class="pay-method">PayStack</span>
+<span class="pay-method">EFT / Bank Transfer</span>
+<span class="pay-method">Purchase Order</span>
+</div>
+</div>
+<div class="pay-col">
+<h4>Billing Terms</h4>
+<p>Monthly plans billed on the 1st. Annual plans billed upfront or quarterly by arrangement. All prices exclude VAT (15%). Enterprise invoicing available on NET-30 terms. Cancel monthly plans anytime with 30-day notice.</p>
+</div>
 </div>
 </div>
 
+<!-- CTA BOTTOM -->
+<div class="section">
+<div class="cta-bottom">
+<h2>Ready to Transform Your ESG Compliance?</h2>
+<p>Join leading African enterprises using AI-powered compliance intelligence. Start with a 14-day free trial — no credit card required.</p>
+<div class="cta-buttons">
+<a href="/register.html?plan=trial" class="cta-btn gold">Start Free Trial</a>
+<a href="mailto:info@tisholdings.co.za?subject=Enterprise%20Pricing%20Enquiry" class="cta-btn white">Contact Sales</a>
+</div>
+</div>
 </div>
 </div>
 
-<footer>
-<div class="copy">&copy; 2026 <a href="https://www.tis-holdings.com">TIS Holdings Pty Ltd</a> &mdash; ESG Navigator. All data protected under POPIA.</div>
-</footer>
+<footer><div class="copy">&copy; 2026 <a href="https://www.tis-holdings.com">TIS Holdings Pty Ltd</a> &mdash; ESG Navigator. All data protected under POPIA. Powered by Anthropic Claude &middot; IBM Watsonx &middot; AWS</div></footer>
 
 <script>
-// Read plan from URL
-var params=new URLSearchParams(window.location.search);
-var plan=params.get('plan');
-var plans={essentials:{name:"Essentials",price:"R12,500/month — 3 users, 5 companies"},standard:{name:"Standard",price:"R45,000/month — 10 users, 25 companies"},enterprise:{name:"Enterprise",price:"Custom pricing — contact sales"}};
-if(plan&&plans[plan]){
-document.getElementById('plan-name').textContent=plans[plan].name;
-document.getElementById('plan-price').textContent=plans[plan].price;
+var annual=false;
+var plans=[
+{id:"trial",tier:"FREE",name:"Free Trial",desc:"14-day full access. Explore all features with sample data. No credit card required.",priceM:0,users:1,companies:2,features:["1 user account","2 sample companies","All 8 AI agents (limited queries)","Dashboard & reporting preview","Email support","POPIA-compliant data handling"],cta:"Start Free Trial",ctaClass:"outline",ctaLink:"/register.html?plan=trial"},
+{id:"essentials",tier:"ESSENTIALS",name:"Essentials",desc:"For SMEs beginning their ESG journey. Core compliance monitoring and reporting.",priceM:12500,users:3,companies:5,features:["3 user accounts","5 company profiles","ESG Compliance & ISO agents","Basic dashboard & reports","Monthly ESG scorecard","Email support (48hr SLA)","Quarterly compliance digest","Data export (CSV/PDF)"],cta:"Get Started",ctaClass:"outline",ctaLink:"/register.html?plan=essentials"},
+{id:"standard",tier:"STANDARD",name:"Standard",desc:"For growing enterprises needing full compliance coverage and supplier risk visibility.",priceM:45000,users:10,companies:25,featured:true,features:["10 user accounts","25 company profiles","All 8 AI agents — full access","Advanced analytics dashboard","Supplier risk monitoring","GISTM & ISSB modules included","Priority support (24hr SLA)","API access (1,000 calls/month)","Custom report templates","Dedicated onboarding session"],cta:"Get Standard",ctaClass:"primary",ctaLink:"/register.html?plan=standard"},
+{id:"enterprise",tier:"ENTERPRISE",name:"Enterprise",desc:"For Tier-1 corporates & JSE-listed companies. Unlimited scale with dedicated support.",priceM:0,users:"Unlimited",companies:"Unlimited",features:["Unlimited users","Unlimited company profiles","All AI agents — unlimited queries","White-label reporting","Custom framework integration","SSO / SAML authentication","Dedicated success manager","24/7 phone & email support","Board-ready presentations","Custom API integrations","On-premise deployment option","SLA-backed uptime (99.9%)"],cta:"Contact Sales",ctaClass:"dark",ctaLink:"mailto:info@tisholdings.co.za?subject=Enterprise%20Enquiry"}
+];
+
+var addons=[
+{icon:"🏢",name:"Additional Companies",desc:"Monitor more entities across your portfolio",price:"R1,200",unit:"/company/month"},
+{icon:"👤",name:"Additional Users",desc:"Expand team access to the platform",price:"R850",unit:"/user/month"},
+{icon:"🤖",name:"AI Query Pack",desc:"Extra AI agent queries beyond plan limits",price:"R3,500",unit:"/1,000 queries"},
+{icon:"📊",name:"Assessment Pack",desc:"Additional ESG assessments and audits",price:"R2,800",unit:"/10 assessments"},
+{icon:"🎓",name:"Training Seats",desc:"Add team members to IntelliMat Academy",price:"R3,500",unit:"/seat/course"},
+{icon:"🔌",name:"API Access Pack",desc:"Extended API calls for system integration",price:"R5,000",unit:"/5,000 calls/month"}
+];
+
+var sectors=[
+{tag:"MINING",name:"Mining & GISTM",desc:"Tailings management, Mining Charter, MHSA compliance, environmental impact.",price:"R8,500",unit:"/month",items:["GISTM full framework","Mining Charter scorecard","MHSA compliance tracker","Tailings facility register","Environmental impact monitoring"]},
+{tag:"FINANCIAL SERVICES",name:"Financial Services",desc:"Basel III, FAIS, FICA compliance with risk-based ESG scoring for portfolios.",price:"R9,500",unit:"/month",items:["FAIS & FICA compliance","Portfolio ESG scoring","Credit risk integration","Regulatory reporting","Anti-money laundering ESG checks"]},
+{tag:"HEALTH",name:"Healthcare & Pharma",desc:"NHI readiness, clinical waste, occupational health and safety frameworks.",price:"R7,500",unit:"/month",items:["NHI compliance readiness","Clinical waste management","Occupational health tracking","Patient safety standards","Pharmaceutical supply chain ESG"]},
+{tag:"EDUCATION",name:"Higher Education",desc:"Institutional ESG integration, research ethics, campus sustainability frameworks.",price:"R6,500",unit:"/month",items:["Institutional ESG framework","Research ethics compliance","Campus sustainability metrics","Student welfare governance","DHET reporting alignment"]},
+{tag:"ISSB / CLIMATE",name:"ISSB Climate Disclosure",desc:"IFRS S1 & S2 compliance, carbon accounting, climate risk scenario analysis.",price:"R10,000",unit:"/month",items:["IFRS S1 & S2 alignment","Carbon accounting (Scope 1-3)","Climate scenario analysis","Transition risk assessment","TCFD-aligned reporting"]},
+{tag:"MULTI-JURISDICTION",name:"Multi-Jurisdiction",desc:"Cross-border compliance for organisations operating across African markets.",price:"R12,000",unit:"/month",items:["Pan-African regulatory mapping","Country-specific ESG frameworks","Cross-border reporting","Regulatory change alerts","Multi-currency support"]}
+];
+
+var compareData=[
+{cat:"Platform Access"},
+{f:"User accounts",v:["1","3","10","Unlimited"]},
+{f:"Company profiles",v:["2 (sample)","5","25","Unlimited"]},
+{f:"AI agent access",v:["Limited","ESG + ISO","All 8 agents","All + custom"]},
+{f:"AI queries/month",v:["50","500","5,000","Unlimited"]},
+{f:"Dashboard",v:["✓","✓","✓","✓"]},
+{f:"Mobile access",v:["✓","✓","✓","✓"]},
+{cat:"Compliance & Reporting"},
+{f:"ESG scorecard",v:["Preview","Monthly","Weekly","Real-time"]},
+{f:"ISO compliance tracking",v:["—","14001, 45001","All ISO standards","All + custom"]},
+{f:"Supplier risk monitoring",v:["—","—","✓","✓"]},
+{f:"GISTM / ISSB modules",v:["—","—","✓","✓"]},
+{f:"Custom frameworks",v:["—","—","—","✓"]},
+{f:"Board-ready reports",v:["—","—","Templates","Fully custom"]},
+{f:"Data export",v:["—","CSV/PDF","CSV/PDF/API","All + white-label"]},
+{cat:"Support & Services"},
+{f:"Email support",v:["✓","48hr SLA","24hr SLA","4hr SLA"]},
+{f:"Phone support",v:["—","—","Business hours","24/7"]},
+{f:"Dedicated success manager",v:["—","—","—","✓"]},
+{f:"Onboarding",v:["Self-serve","Guide","Dedicated session","White-glove"]},
+{f:"Training included",v:["—","—","2 seats","10 seats"]},
+{cat:"Security & Integration"},
+{f:"POPIA compliance",v:["✓","✓","✓","✓"]},
+{f:"SSO / SAML",v:["—","—","—","✓"]},
+{f:"API access",v:["—","—","1,000/month","Custom"]},
+{f:"On-premise option",v:["—","—","—","✓"]},
+{f:"SLA guarantee",v:["—","99.5%","99.5%","99.9%"]}
+];
+
+function toggleBilling(){
+annual=!annual;
+document.getElementById('billing-toggle').classList.toggle('on',annual);
+document.getElementById('lbl-m').classList.toggle('active',!annual);
+document.getElementById('lbl-a').classList.toggle('active',annual);
+renderPlans();
 }
-function submitForm(){
-document.getElementById('reg-form').style.display='none';
-document.getElementById('success').style.display='block';
+
+function fmt(n){return n===0?'Free':'R'+n.toLocaleString('en-ZA')}
+
+function renderPlans(){
+var g=document.getElementById('plans-grid');
+g.innerHTML='';
+plans.forEach(function(p){
+var price=p.priceM;
+var period='/month';
+if(annual&&price>0){price=Math.round(price*12*0.88);period='/year';}
+var card=document.createElement('div');
+card.className='plan-card'+(p.featured?' featured':'');
+var featHTML='';
+p.features.forEach(function(f){featHTML+='<li>'+f+'</li>';});
+card.innerHTML='<div class="plan-tier">'+p.tier+'</div><div class="plan-name">'+p.name+'</div><div class="plan-desc">'+p.desc+'</div><div class="plan-price">'+(p.id==='enterprise'?'Custom':fmt(price))+(p.id!=='enterprise'?' <span>'+period+'</span>':'')+'</div><div class="plan-period">'+(p.id==='enterprise'?'Tailored to your organisation':p.users+' users · '+p.companies+' companies')+'</div><a href="'+p.ctaLink+'" class="plan-cta '+p.ctaClass+'">'+p.cta+'</a><div class="plan-divider"></div><ul class="plan-features">'+featHTML+'</ul>';
+g.appendChild(card);
+});
 }
+
+function renderAddons(){
+var g=document.getElementById('addons-grid');
+addons.forEach(function(a){
+g.innerHTML+='<div class="addon"><div class="addon-icon">'+a.icon+'</div><div class="addon-name">'+a.name+'</div><div class="addon-desc">'+a.desc+'</div><div class="addon-price">'+a.price+' <span>'+a.unit+'</span></div></div>';
+});
+}
+
+function renderSectors(){
+var g=document.getElementById('sector-grid');
+sectors.forEach(function(s){
+var items='';
+s.items.forEach(function(i){items+='<li>'+i+'</li>';});
+g.innerHTML+='<div class="sector"><span class="sector-tag">'+s.tag+'</span><div class="sector-name">'+s.name+'</div><div class="sector-desc">'+s.desc+'</div><div class="sector-price">'+s.price+' <span>'+s.unit+'</span></div><ul class="sector-items">'+items+'</ul></div>';
+});
+}
+
+function renderCompare(){
+var w=document.getElementById('compare-wrap');
+var h='<table><thead><tr><th>Feature</th><th>Free Trial</th><th>Essentials</th><th>Standard</th><th>Enterprise</th></tr></thead><tbody>';
+compareData.forEach(function(r){
+if(r.cat){h+='<tr class="cat-row"><td colspan="5">'+r.cat+'</td></tr>';}
+else{
+h+='<tr><td>'+r.f+'</td>';
+r.v.forEach(function(v){
+if(v==='✓')h+='<td class="check">✓</td>';
+else if(v==='—')h+='<td class="dash">—</td>';
+else h+='<td>'+v+'</td>';
+});
+h+='</tr>';}
+});
+h+='</tbody></table>';
+w.innerHTML=h;
+}
+
+renderPlans();
+renderAddons();
+renderSectors();
+renderCompare();
 </script>
 </body>
 </html>
