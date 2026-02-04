@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><title>Register | ESG Navigator</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:system-ui,-apple-system,sans-serif;background:#fafafa;color:#1a1a1a;min-height:100vh;display:flex;flex-direction:column}
+header{border-bottom:1px solid #e8e8e8;background:#fff}
+.hdr{max-width:1200px;margin:0 auto;padding:0 1.5rem;display:flex;align-items:center;justify-content:space-between;height:72px}
+.logo{display:flex;align-items:center;gap:.75rem;font-size:.875rem;letter-spacing:.12em;text-transform:uppercase;color:#1a1a1a;text-decoration:none;font-weight:600}
+.logo-icon{width:34px;height:34px;border-radius:999px;background:#d4af37;display:grid;place-items:center;font-size:.65rem;color:#fff;font-weight:700}
+nav a{font-size:.8rem;color:#666;text-decoration:none;margin-left:1.5rem}
+nav a:hover{color:#d4af37}
+.main{flex:1;display:flex;align-items:center;justify-content:center;padding:2rem 1.5rem}
+.reg-container{display:grid;grid-template-columns:1fr 1fr;gap:3rem;max-width:960px;width:100%}
+.reg-info{padding:2rem 0}
+.reg-info h1{font-size:1.5rem;font-weight:700;color:#1a1a1a;margin-bottom:.75rem}
+.reg-info p{font-size:.85rem;color:#777;line-height:1.65;margin-bottom:1.5rem}
+.plan-selected{background:#fff;border:1px solid #e8e8e8;border-radius:12px;padding:1.25rem;margin-bottom:1.5rem}
+.plan-selected .ps-label{font-size:.6rem;text-transform:uppercase;letter-spacing:.1em;color:#d4af37;font-weight:600;margin-bottom:.35rem}
+.plan-selected .ps-name{font-size:1rem;font-weight:700;color:#1a1a1a}
+.plan-selected .ps-price{font-size:.82rem;color:#888;margin-top:.15rem}
+.plan-selected .ps-change{font-size:.72rem;color:#d4af37;text-decoration:none;margin-top:.5rem;display:inline-block}
+.benefits{list-style:none;padding:0}
+.benefits li{font-size:.78rem;color:#555;padding:.35rem 0 .35rem 1.2rem;position:relative;line-height:1.45}
+.benefits li::before{content:"\2713";position:absolute;left:0;color:#d4af37;font-weight:700}
+.trust-row{display:flex;gap:1.25rem;margin-top:1.5rem;flex-wrap:wrap}
+.trust-item{font-size:.65rem;color:#aaa;display:flex;align-items:center;gap:.3rem}
+.trust-item strong{color:#888}
+.reg-form-wrap{background:#fff;border:1px solid #e8e8e8;border-radius:16px;padding:2rem;box-shadow:0 2px 8px rgba(0,0,0,0.04)}
+.reg-form-wrap h2{font-size:1.1rem;font-weight:700;color:#1a1a1a;margin-bottom:.25rem}
+.reg-form-wrap .sub{font-size:.78rem;color:#999;margin-bottom:1.5rem}
+.form-row{margin-bottom:1rem}
+.form-row.double{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+.form-row label{display:block;font-size:.7rem;font-weight:600;color:#555;margin-bottom:.3rem;text-transform:uppercase;letter-spacing:.04em}
+.form-row input,.form-row select{width:100%;padding:.65rem .85rem;border:1px solid #ddd;border-radius:8px;font-size:.82rem;font-family:system-ui;color:#1a1a1a;transition:border-color .2s;background:#fff}
+.form-row input:focus,.form-row select:focus{outline:none;border-color:#d4af37;box-shadow:0 0 0 3px rgba(212,175,55,0.1)}
+.form-row input::placeholder{color:#ccc}
+.divider{height:1px;background:#eee;margin:1.25rem 0}
+.form-row .hint{font-size:.62rem;color:#bbb;margin-top:.25rem}
+.checkbox-row{display:flex;align-items:flex-start;gap:.5rem;margin:1rem 0}
+.checkbox-row input[type="checkbox"]{margin-top:.15rem;accent-color:#d4af37}
+.checkbox-row label{font-size:.72rem;color:#777;line-height:1.45}
+.checkbox-row a{color:#d4af37;text-decoration:none}
+.submit-btn{width:100%;padding:.8rem;border:none;border-radius:10px;background:linear-gradient(135deg,#d4af37,#e8cc6e);color:#000;font-size:.88rem;font-weight:600;cursor:pointer;transition:all .2s;font-family:system-ui;margin-top:.5rem}
+.submit-btn:hover{box-shadow:0 4px 16px rgba(212,175,55,0.25);transform:translateY(-1px)}
+.or-divider{text-align:center;margin:1rem 0;font-size:.72rem;color:#ccc;position:relative}
+.or-divider::before,.or-divider::after{content:"";position:absolute;top:50%;height:1px;background:#eee;width:40%}
+.or-divider::before{left:0}
+.or-divider::after{right:0}
+.alt-login{display:flex;gap:.75rem}
+.alt-btn{flex:1;padding:.6rem;border:1px solid #e8e8e8;border-radius:8px;background:#fff;font-size:.75rem;font-weight:500;color:#555;cursor:pointer;text-align:center;transition:border-color .2s;font-family:system-ui}
+.alt-btn:hover{border-color:#d4af37;color:#b8960b}
+.login-link{text-align:center;margin-top:1rem;font-size:.75rem;color:#999}
+.login-link a{color:#d4af37;text-decoration:none;font-weight:600}
+.success{display:none;text-align:center;padding:3rem 2rem}
+.success h2{font-size:1.3rem;font-weight:700;color:#1a1a1a;margin-bottom:.75rem}
+.success p{font-size:.85rem;color:#777;line-height:1.6;margin-bottom:1.5rem}
+.success .chk-circle{width:64px;height:64px;border-radius:50%;background:rgba(34,197,94,0.1);display:grid;place-items:center;margin:0 auto 1.25rem;font-size:1.5rem;color:#22c55e}
+footer{border-top:1px solid #e8e8e8;padding:1rem 0;text-align:center;background:#fff}
+footer .copy{font-size:.62rem;color:#ccc}
+footer a{color:#d4af37;text-decoration:none}
+@media(max-width:768px){.reg-container{grid-template-columns:1fr}.form-row.double{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<header><div class="hdr">
+<a href="/" class="logo"><span class="logo-icon">ESG</span> ESG Navigator</a>
+<nav><a href="/">Home</a><a href="/pricing.html">Pricing</a><a href="/training.html">Training</a></nav>
+</div></header>
+
+<div class="main">
+<div class="reg-container">
+
+<!-- Left Info Panel -->
+<div class="reg-info">
+<h1>Start Your ESG Compliance Journey</h1>
+<p>Create your ESG Navigator account to access AI-powered compliance intelligence across Mining, Health, Financial Services, and Education.</p>
+
+<div class="plan-selected" id="plan-info">
+<div class="ps-label">Selected Plan</div>
+<div class="ps-name" id="plan-name">Free Trial</div>
+<div class="ps-price" id="plan-price">14 days free — no credit card required</div>
+<a href="/pricing.html" class="ps-change">Change plan &rarr;</a>
+</div>
+
+<ul class="benefits">
+<li>14-day free trial with no commitment</li>
+<li>Access to ESG Compliance AI agent</li>
+<li>Sample company dashboard preview</li>
+<li>Upgrade to paid plan anytime</li>
+<li>Data protected under POPIA</li>
+<li>Cancel anytime — no lock-in</li>
+</ul>
+
+<div class="trust-row">
+<div class="trust-item"><strong>POPIA</strong> compliant</div>
+<div class="trust-item"><strong>SOC 2</strong> pathway</div>
+<div class="trust-item"><strong>AWS</strong> hosted</div>
+<div class="trust-item"><strong>ISO 27001</strong> aligned</div>
+</div>
+</div>
+
+<!-- Right Form -->
+<div class="reg-form-wrap" id="form-wrap">
+<h2>Create Your Account</h2>
+<div class="sub">Already have an account? <a href="#" style="color:#d4af37;text-decoration:none">Sign in</a></div>
+
+<div id="reg-form">
+<div class="form-row double">
+<div><label>First Name</label><input type="text" placeholder="Terry" required></div>
+<div><label>Last Name</label><input type="text" placeholder="Ramabulana" required></div>
+</div>
+<div class="form-row"><label>Work Email</label><input type="email" placeholder="you@company.co.za" required><div class="hint">We'll send your verification link here</div></div>
+<div class="form-row"><label>Company Name</label><input type="text" placeholder="Your organisation" required></div>
+<div class="form-row double">
+<div><label>Industry</label><select required>
+<option value="">Select sector</option>
+<option>Mining</option>
+<option>Financial Services</option>
+<option>Health</option>
+<option>Education</option>
+<option>Manufacturing</option>
+<option>Energy & Utilities</option>
+<option>Technology</option>
+<option>Government</option>
+<option>Other</option>
+</select></div>
+<div><label>Company Size</label><select required>
+<option value="">Select size</option>
+<option>1-10 employees</option>
+<option>11-50 employees</option>
+<option>51-200 employees</option>
+<option>201-1000 employees</option>
+<option>1000+ employees</option>
+</select></div>
+</div>
+<div class="form-row"><label>Country</label><select required>
+<option value="">Select country</option>
+<option selected>South Africa</option>
+<option>Botswana</option><option>Namibia</option><option>Mozambique</option><option>Zimbabwe</option><option>Zambia</option>
+<option>Kenya</option><option>Tanzania</option><option>Rwanda</option><option>Uganda</option><option>Ethiopia</option>
+<option>Nigeria</option><option>Ghana</option><option>DRC</option>
+<option>Egypt</option><option>Morocco</option><option>Saudi Arabia</option><option>UAE</option>
+<option>India</option><option>Singapore</option><option>Australia</option>
+<option>United Kingdom</option><option>Brazil</option><option>Canada</option>
+<option>Other</option>
+</select></div>
+
+<div class="divider"></div>
+
+<div class="form-row"><label>Password</label><input type="password" placeholder="Minimum 8 characters" required><div class="hint">At least 8 characters with one uppercase, one number, and one special character</div></div>
+<div class="form-row"><label>Confirm Password</label><input type="password" placeholder="Confirm your password" required></div>
+
+<div class="checkbox-row">
+<input type="checkbox" id="terms" required>
+<label for="terms">I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>, and consent to the processing of my personal information in accordance with POPIA.</label>
+</div>
+<div class="checkbox-row">
+<input type="checkbox" id="marketing">
+<label for="marketing">I'd like to receive ESG compliance insights, product updates, and training announcements from TIS Holdings.</label>
+</div>
+
+<button class="submit-btn" onclick="submitForm()">Create Account &rarr;</button>
+
+<div class="or-divider">or continue with</div>
+<div class="alt-login">
+<button class="alt-btn">Microsoft SSO</button>
+<button class="alt-btn">Google Workspace</button>
+</div>
+
+<div class="login-link">Already registered? <a href="#">Sign in to your account</a></div>
+</div>
+
+<div class="success" id="success">
+<div class="chk-circle">&#10003;</div>
+<h2>Account Created Successfully</h2>
+<p>We've sent a verification email to your address. Please check your inbox and click the verification link to activate your ESG Navigator account.</p>
+<p style="font-size:.78rem;color:#999">Didn't receive it? Check your spam folder or <a href="#" style="color:#d4af37;text-decoration:none">resend verification email</a>.</p>
+<a href="/dashboard.html" class="submit-btn" style="display:inline-block;text-decoration:none;max-width:300px;margin-top:.5rem">Go to Dashboard &rarr;</a>
+</div>
+</div>
+
+</div>
+</div>
+
+<footer>
+<div class="copy">&copy; 2026 <a href="https://www.tis-holdings.com">TIS Holdings Pty Ltd</a> &mdash; ESG Navigator. All data protected under POPIA.</div>
+</footer>
+
+<script>
+// Read plan from URL
+var params=new URLSearchParams(window.location.search);
+var plan=params.get('plan');
+var plans={essentials:{name:"Essentials",price:"R12,500/month — 3 users, 5 companies"},standard:{name:"Standard",price:"R45,000/month — 10 users, 25 companies"},enterprise:{name:"Enterprise",price:"Custom pricing — contact sales"}};
+if(plan&&plans[plan]){
+document.getElementById('plan-name').textContent=plans[plan].name;
+document.getElementById('plan-price').textContent=plans[plan].price;
+}
+function submitForm(){
+document.getElementById('reg-form').style.display='none';
+document.getElementById('success').style.display='block';
+}
+</script>
+</body>
+</html>
