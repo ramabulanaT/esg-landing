@@ -1,801 +1,282 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>ESG Navigator | TIS Holdings</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <style>
-    :root {
-      --color-bg: #050505;
-      --color-gold: #d4af37;
-      --color-white: #ffffff;
-      --color-grey-100: #f5f5f5;
-      --color-grey-700: #4b4b4b;
-      --color-border-dark: rgba(255, 255, 255, 0.08);
-      --color-border-light: #e0e0e0;
-
-      --font-body: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      --font-heading: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-
-      --max-width: 1120px;
-      --space-section: 5rem;
-      --radius-card: 10px;
-      --shadow-soft: 0 16px 40px rgba(0, 0, 0, 0.18);
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      font-family: var(--font-body);
-      background: var(--color-bg);
-      color: var(--color-white);
-      line-height: 1.6;
-    }
-
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    .page {
-      min-height: 100vh;
-      background: radial-gradient(circle at top left, #1c1c1c 0, #050505 48%, #000000 100%);
-    }
-
-    .shell {
-      max-width: var(--max-width);
-      margin: 0 auto;
-      padding: 0 1.5rem;
-    }
-
-    header {
-      border-bottom: 1px solid var(--color-border-dark);
-      backdrop-filter: blur(10px);
-      position: sticky;
-      top: 0;
-      z-index: 10;
-      background: rgba(5, 5, 5, 0.94);
-    }
-
-    .header-inner {
-      display: flex;
-      align-items: center;
-      justify-content-between;
-      justify-content: space-between;
-      height: 72px;
-    }
-
-    .logo-mark {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      font-size: 0.875rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: rgba(255, 255, 255, 0.78);
-    }
-
-    .logo-icon {
-      width: 32px;
-      height: 32px;
-      border-radius: 999px;
-      border: 1px solid var(--color-gold);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.75rem;
-      font-weight: 600;
-      color: var(--color-gold);
-    }
-
-    nav {
-      display: flex;
-      align-items: center;
-      gap: 2rem;
-      font-size: 0.875rem;
-    }
-
-    nav a {
-      opacity: 0.75;
-    }
-
-    nav a:hover {
-      opacity: 1;
-    }
-
-    .tag-pill {
-      padding: 0.35rem 0.9rem;
-      border-radius: 999px;
-      border: 1px solid var(--color-border-dark);
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 0.16em;
-      color: rgba(255, 255, 255, 0.78);
-    }
-
-    /* Buttons */
-
-    .btn-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.75rem;
-      margin-top: 1.75rem;
-    }
-
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 0.8rem 1.6rem;
-      border-radius: 999px;
-      font-size: 0.9rem;
-      font-weight: 500;
-      border: 1px solid transparent;
-      cursor: pointer;
-      transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease,
-        border-color 0.12s ease, color 0.12s ease;
-      text-decoration: none;
-      white-space: nowrap;
-    }
-
-    .btn-primary {
-      background: var(--color-gold);
-      color: #161616;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
-    }
-
-    .btn-primary:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.55);
-    }
-
-    .btn-secondary {
-      background: transparent;
-      border-color: var(--color-border-dark);
-      color: rgba(255, 255, 255, 0.92);
-    }
-
-    .btn-secondary:hover {
-      border-color: var(--color-gold);
-      color: var(--color-gold);
-    }
-
-    /* Hero */
-
-    .hero {
-      padding: 4rem 0 3.5rem;
-    }
-
-    .hero-grid {
-      display: grid;
-      grid-template-columns: minmax(0, 3fr) minmax(0, 2.25fr);
-      gap: 3rem;
-      align-items: center;
-    }
-
-    .eyebrow {
-      font-size: 0.8rem;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      color: var(--color-gold);
-      margin-bottom: 1rem;
-    }
-
-    .hero h1 {
-      font-family: var(--font-heading);
-      font-size: clamp(2.4rem, 3.3vw, 3.3rem);
-      line-height: 1.1;
-      margin: 0 0 1.2rem;
-      color: var(--color-white);
-    }
-
-    .hero-lead {
-      font-size: 1rem;
-      max-width: 32rem;
-      color: rgba(255, 255, 255, 0.78);
-    }
-
-    .hero-meta {
-      margin-top: 1.5rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.35rem;
-      font-size: 0.85rem;
-      color: rgba(255, 255, 255, 0.65);
-    }
-
-    .hero-meta strong {
-      color: rgba(255, 255, 255, 0.9);
-    }
-
-    .hero-card {
-      background: rgba(12, 12, 12, 0.94);
-      border-radius: 18px;
-      padding: 1.75rem 1.5rem;
-      box-shadow: var(--shadow-soft);
-      border: 1px solid var(--color-border-dark);
-    }
-
-    .hero-card h2 {
-      margin: 0 0 0.75rem;
-      font-size: 1.05rem;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: rgba(255, 255, 255, 0.78);
-    }
-
-    .hero-card p {
-      font-size: 0.92rem;
-      color: rgba(255, 255, 255, 0.78);
-      margin: 0 0 1rem;
-    }
-
-    .hero-list {
-      list-style: none;
-      padding: 0;
-      margin: 0.5rem 0 0;
-      font-size: 0.88rem;
-      display: grid;
-      gap: 0.5rem;
-    }
-
-    .hero-list li::before {
-      content: "•";
-      color: var(--color-gold);
-      display: inline-block;
-      width: 1rem;
-      margin-left: -1rem;
-    }
-
-    .trust-line {
-      margin-top: 1.75rem;
-      font-size: 0.85rem;
-      color: rgba(255, 255, 255, 0.65);
-      border-top: 1px solid var(--color-border-dark);
-      padding-top: 1rem;
-    }
-
-    .trust-line span {
-      color: var(--color-gold);
-      font-weight: 500;
-    }
-
-    /* Sections */
-
-    .section {
-      padding: var(--space-section) 0;
-      border-top: 1px solid rgba(255, 255, 255, 0.04);
-    }
-
-    .section--light {
-      background: var(--color-grey-100);
-      color: #111;
-    }
-
-    .section-heading {
-      max-width: 40rem;
-      margin-bottom: 1.75rem;
-    }
-
-    .section-heading h2 {
-      margin: 0 0 0.75rem;
-      font-size: 1.6rem;
-    }
-
-    .section-heading p {
-      margin: 0;
-      color: rgba(255, 255, 255, 0.75);
-    }
-
-    .section--light .section-heading p {
-      color: #4f4f4f;
-    }
-
-    .grid {
-      display: grid;
-      gap: 1.75rem;
-    }
-
-    .grid--3 {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
-
-    .grid--2 {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    .card {
-      border-radius: var(--radius-card);
-      padding: 1.5rem 1.4rem;
-      border: 1px solid var(--color-border-dark);
-      background: radial-gradient(circle at top left, #191919 0, #050505 55%);
-    }
-
-    .section--light .card {
-      background: #ffffff;
-      border-color: var(--color-border-light);
-    }
-
-    .card h3 {
-      margin: 0 0 0.4rem;
-      font-size: 1.05rem;
-    }
-
-    .card p {
-      margin: 0.35rem 0 0.5rem;
-      font-size: 0.9rem;
-      color: rgba(255, 255, 255, 0.78);
-    }
-
-    .section--light .card p {
-      color: #555;
-    }
-
-    .card small {
-      font-size: 0.8rem;
-      color: rgba(255, 255, 255, 0.65);
-    }
-
-    .section--light .card small {
-      color: #777;
-    }
-
-    .stat-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1.25rem;
-      margin-top: 1.25rem;
-      font-size: 0.9rem;
-    }
-
-    .stat-pill {
-      border-radius: 999px;
-      border: 1px solid var(--color-border-dark);
-      padding: 0.45rem 0.9rem;
-      color: rgba(255, 255, 255, 0.78);
-      font-size: 0.8rem;
-    }
-
-    .section--light .stat-pill {
-      border-color: var(--color-border-light);
-      color: #444;
-    }
-
-    /* Checklist */
-
-    .checklist {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-      display: grid;
-      gap: 0.6rem;
-      font-size: 0.9rem;
-    }
-
-    .checklist li {
-      position: relative;
-      padding-left: 1.6rem;
-    }
-
-    .checklist li::before {
-      content: "✕";
-      position: absolute;
-      left: 0;
-      top: 0;
-      color: var(--color-gold);
-      font-size: 0.9rem;
-    }
-
-    .note {
-      margin-top: 0.9rem;
-      font-size: 0.85rem;
-      color: rgba(255, 255, 255, 0.65);
-    }
-
-    .section--light .note {
-      color: #666;
-    }
-
-    /* Steps */
-
-    .steps {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-      display: grid;
-      gap: 1.3rem;
-    }
-
-    .step-label {
-      font-size: 0.8rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--color-gold);
-      margin-bottom: 0.1rem;
-    }
-
-    .steps h3 {
-      margin: 0 0 0.3rem;
-      font-size: 1rem;
-    }
-
-    .steps p {
-      margin: 0;
-      font-size: 0.9rem;
-      color: #555;
-    }
-
-    /* Footer */
-
-    footer {
-      border-top: 1px solid rgba(255, 255, 255, 0.08);
-      padding: 2rem 0 2.5rem;
-      font-size: 0.85rem;
-      color: rgba(255, 255, 255, 0.65);
-    }
-
-    footer strong {
-      color: rgba(255, 255, 255, 0.9);
-    }
-
-    .footer-grid {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      gap: 1.5rem;
-      align-items: flex-start;
-    }
-
-    .footer-links {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1.25rem;
-    }
-
-    .footer-links a {
-      opacity: 0.8;
-    }
-
-    .footer-links a:hover {
-      opacity: 1;
-    }
-
-    @media (max-width: 900px) {
-      .hero-grid {
-        grid-template-columns: minmax(0, 1fr);
-      }
-
-      .grid--3 {
-        grid-template-columns: minmax(0, 1fr);
-      }
-
-      .grid--2 {
-        grid-template-columns: minmax(0, 1fr);
-      }
-
-      header {
-        position: static;
-      }
-
-      .hero {
-        padding-top: 2.5rem;
-      }
-    }
-  </style>
+<meta charset="UTF-8"><title>ESG Navigator | AI-Powered Compliance Intelligence</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Enterprise ESG-GRC compliance intelligence powered by 8 specialised AI agents. Built for African enterprises by TIS Holdings.">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:system-ui,-apple-system,sans-serif;background:#0a0a0f;color:#fff;overflow-x:hidden}
+::selection{background:rgba(212,175,55,.3);color:#fff}
+
+/* Nav */
+header{position:fixed;top:0;width:100%;z-index:100;background:rgba(10,10,15,.85);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.04)}
+.nav{max-width:1200px;margin:0 auto;padding:0 2rem;height:68px;display:flex;align-items:center;justify-content:space-between}
+.logo{display:flex;align-items:center;gap:.65rem;text-decoration:none;color:#fff}
+.logo-mark{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,#d4af37,#b8960b);display:grid;place-items:center;font-size:.55rem;font-weight:800;color:#000;letter-spacing:.04em}
+.logo-text{font-size:.82rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase}
+.logo-text span{color:rgba(255,255,255,.35);font-weight:400;margin-left:.35rem}
+nav{display:flex;align-items:center;gap:1.75rem}
+nav a{font-size:.75rem;color:rgba(255,255,255,.45);text-decoration:none;letter-spacing:.04em;transition:color .2s}
+nav a:hover{color:#d4af37}
+.nav-cta{padding:.45rem 1rem;border-radius:6px;background:rgba(212,175,55,.12);color:#d4af37;font-weight:600;border:1px solid rgba(212,175,55,.2)}
+.nav-cta:hover{background:rgba(212,175,55,.2);color:#d4af37}
+
+/* Hero */
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:8rem 2rem 4rem;position:relative}
+.hero::before{content:"";position:absolute;top:0;left:50%;transform:translateX(-50%);width:800px;height:800px;background:radial-gradient(circle,rgba(212,175,55,.06) 0%,transparent 70%);pointer-events:none}
+.hero-badge{display:inline-flex;align-items:center;gap:.5rem;padding:.4rem 1rem;border-radius:20px;border:1px solid rgba(212,175,55,.15);background:rgba(212,175,55,.05);font-size:.65rem;color:#d4af37;letter-spacing:.06em;text-transform:uppercase;font-weight:500;margin-bottom:2rem}
+.hero-badge .pulse{width:6px;height:6px;border-radius:50%;background:#d4af37;animation:pulse 2s ease infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.hero h1{font-size:3.5rem;font-weight:700;line-height:1.12;max-width:800px;letter-spacing:-.03em;margin-bottom:1.25rem}
+.hero h1 .gold{background:linear-gradient(135deg,#d4af37,#e8cc6e);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-sub{font-size:1.05rem;color:rgba(255,255,255,.45);max-width:580px;line-height:1.65;margin-bottom:2.5rem}
+.hero-actions{display:flex;gap:.75rem;flex-wrap:wrap;justify-content:center}
+.btn{padding:.75rem 1.75rem;border-radius:10px;font-size:.82rem;font-weight:600;text-decoration:none;transition:all .25s;border:none;cursor:pointer;font-family:system-ui;letter-spacing:.02em}
+.btn-gold{background:linear-gradient(135deg,#d4af37,#e8cc6e);color:#000}
+.btn-gold:hover{box-shadow:0 8px 30px rgba(212,175,55,.25);transform:translateY(-2px)}
+.btn-ghost{background:transparent;border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.7)}
+.btn-ghost:hover{border-color:rgba(255,255,255,.3);color:#fff}
+.hero-proof{display:flex;gap:2.5rem;margin-top:3.5rem;flex-wrap:wrap;justify-content:center}
+.proof{text-align:center}
+.proof-val{font-size:1.5rem;font-weight:700;color:#d4af37}
+.proof-label{font-size:.62rem;color:rgba(255,255,255,.3);text-transform:uppercase;letter-spacing:.08em;margin-top:.15rem}
+
+/* Manifesto */
+.manifesto{padding:5rem 2rem;text-align:center;border-top:1px solid rgba(255,255,255,.04)}
+.manifesto-inner{max-width:700px;margin:0 auto}
+.manifesto q{font-size:1.4rem;font-weight:300;font-style:italic;color:rgba(255,255,255,.7);line-height:1.6;display:block;margin-bottom:1rem}
+.manifesto cite{font-size:.75rem;color:rgba(255,255,255,.25);font-style:normal;letter-spacing:.06em;text-transform:uppercase}
+
+/* Intelligence Stack */
+.stack{padding:5rem 2rem;border-top:1px solid rgba(255,255,255,.04)}
+.stack-inner{max-width:1100px;margin:0 auto}
+.section-tag{font-size:.6rem;text-transform:uppercase;letter-spacing:.15em;color:#d4af37;font-weight:600;margin-bottom:.75rem;text-align:center}
+.section-title{font-size:1.6rem;font-weight:700;text-align:center;margin-bottom:.5rem}
+.section-sub{font-size:.85rem;color:rgba(255,255,255,.35);text-align:center;max-width:550px;margin:0 auto 3rem;line-height:1.6}
+.stack-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(255,255,255,.04);border-radius:16px;overflow:hidden}
+.stack-card{background:#0a0a0f;padding:2rem;transition:background .3s}
+.stack-card:hover{background:rgba(212,175,55,.03)}
+.sc-icon{font-size:1.5rem;margin-bottom:.75rem}
+.sc-name{font-size:.88rem;font-weight:600;margin-bottom:.35rem}
+.sc-desc{font-size:.72rem;color:rgba(255,255,255,.35);line-height:1.55}
+
+/* Agents */
+.agents{padding:5rem 2rem;border-top:1px solid rgba(255,255,255,.04)}
+.agents-inner{max-width:1100px;margin:0 auto}
+.agent-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(255,255,255,.04);border-radius:16px;overflow:hidden}
+.agent{background:#0a0a0f;padding:1.75rem;transition:all .3s;position:relative}
+.agent:hover{background:rgba(212,175,55,.03)}
+.agent-num{font-size:.55rem;color:rgba(212,175,55,.4);font-weight:700;letter-spacing:.1em;margin-bottom:.65rem}
+.agent-name{font-size:.82rem;font-weight:600;margin-bottom:.3rem}
+.agent-scope{font-size:.65rem;color:rgba(255,255,255,.3);line-height:1.5}
+
+/* Governance */
+.governance{padding:5rem 2rem;border-top:1px solid rgba(255,255,255,.04)}
+.gov-inner{max-width:1100px;margin:0 auto}
+.gov-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center}
+.gov-text h3{font-size:1.25rem;font-weight:700;margin-bottom:.75rem}
+.gov-text p{font-size:.82rem;color:rgba(255,255,255,.4);line-height:1.65;margin-bottom:1rem}
+.gov-pillars{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+.pillar{padding:1.25rem;border:1px solid rgba(255,255,255,.06);border-radius:12px;transition:border-color .3s}
+.pillar:hover{border-color:rgba(212,175,55,.2)}
+.pillar-name{font-size:.78rem;font-weight:600;color:#d4af37;margin-bottom:.2rem}
+.pillar-desc{font-size:.65rem;color:rgba(255,255,255,.3);line-height:1.5}
+
+/* Partners */
+.partners{padding:4rem 2rem;border-top:1px solid rgba(255,255,255,.04)}
+.partners-inner{max-width:1100px;margin:0 auto;text-align:center}
+.partner-row{display:flex;justify-content:center;gap:3rem;flex-wrap:wrap;margin-top:2rem}
+.partner-item{display:flex;flex-direction:column;align-items:center;gap:.35rem}
+.partner-name{font-size:.78rem;font-weight:600;color:rgba(255,255,255,.6)}
+.partner-type{font-size:.58rem;color:rgba(255,255,255,.2);text-transform:uppercase;letter-spacing:.06em}
+
+/* CTA */
+.final-cta{padding:5rem 2rem;text-align:center}
+.cta-box{max-width:700px;margin:0 auto;padding:3.5rem;border:1px solid rgba(212,175,55,.12);border-radius:20px;background:linear-gradient(135deg,rgba(212,175,55,.04),rgba(212,175,55,.01))}
+.cta-box h2{font-size:1.5rem;font-weight:700;margin-bottom:.5rem}
+.cta-box p{font-size:.85rem;color:rgba(255,255,255,.4);margin-bottom:2rem;line-height:1.6}
+.cta-actions{display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap}
+
+/* Footer */
+footer{border-top:1px solid rgba(255,255,255,.04);padding:2rem;text-align:center}
+.footer-links{display:flex;justify-content:center;gap:2rem;margin-bottom:1rem}
+.footer-links a{font-size:.7rem;color:rgba(255,255,255,.25);text-decoration:none;transition:color .2s}
+.footer-links a:hover{color:#d4af37}
+.footer-copy{font-size:.6rem;color:rgba(255,255,255,.12);line-height:1.6}
+
+@media(max-width:900px){
+.hero h1{font-size:2.2rem}
+.stack-grid{grid-template-columns:1fr}
+.agent-grid{grid-template-columns:repeat(2,1fr)}
+.gov-grid{grid-template-columns:1fr}
+}
+@media(max-width:600px){
+.agent-grid{grid-template-columns:1fr}
+.hero-proof{gap:1.5rem}
+.nav{padding:0 1rem}
+nav{gap:1rem}
+}
+</style>
 </head>
 <body>
-  <div class="page">
-    <header>
-      <div class="shell header-inner">
-        <div class="logo-mark">
-          <div class="logo-icon">TIS</div>
-          <div>
-            <div>ESG Navigator</div>
-            <div style="font-size: 0.7rem; opacity: 0.7;">TIS Holdings · IntelliMat</div>
-          </div>
-        </div>
-        <nav>
-          <a href="#reckoning">ESG Reckoning</a>
-          <a href="#laggards">Are You a Laggard?</a>
-          <a href="#fast-track">90-Day Fast Track</a>
-          <a href="#about">Why TIS</a>
-          <span class="tag-pill">AI-enabled ESG-GRC</span>
-        </nav>
-      </div>
-    </header>
 
-    <main>
-      <!-- HERO -->
-      <section class="hero">
-        <div class="shell hero-grid">
-          <div>
-            <div class="eyebrow">Boardroom Briefing · 2025</div>
-            <h1>2025: The last year to be an ESG laggard.</h1>
-            <p class="hero-lead">
-              If your organisation still treats ESG as a “nice to have”, you’re not just behind – you’re at
-              material risk. ESG Navigator helps African enterprises move from laggard status to ESG
-              leaders in 90 days.
-            </p>
-            <div class="btn-row">
-  <a href="/dashboard.html" class="btn btn-primary">Launch App →</a>
-  <a href="/insights.html" style="font-size:.8rem;color:rgba(255,255,255,0.55);text-decoration:none">Insights</a> <a href="/assistant.html" class="btn btn-primary">Start Assessment →</a>
-  <a href="#fast-track" class="btn btn-secondary">Book 90-Day Fast Track</a>
+<header><div class="nav">
+<a href="/" class="logo"><span class="logo-mark">ESG</span><span class="logo-text">ESG Navigator <span>by TIS Holdings</span></span></a>
+<nav>
+<a href="/dashboard.html">Dashboard</a>
+<a href="/assistant.html">Assistant</a>
+<a href="/pricing.html">Pricing</a>
+<a href="/training.html">Training</a>
+<a href="/register.html" class="nav-cta">Get Started</a>
+</nav>
+</div></header>
+
+<!-- HERO -->
+<section class="hero">
+<div class="hero-badge"><span class="pulse"></span> AI-Powered Compliance Intelligence</div>
+<h1>The <span class="gold">Intelligence Layer</span> Between Your Business and Global Compliance</h1>
+<p class="hero-sub">Eight specialised AI agents. One governed platform. Built for enterprises navigating ESG, risk, and compliance across Africa and beyond.</p>
+<div class="hero-actions">
+<a href="/register.html?plan=trial" class="btn btn-gold">Start 14-Day Free Trial</a>
+<a href="/pricing.html" class="btn btn-ghost">View Plans</a>
+<a href="https://book.titan.email/tis-holdings" target="_blank" class="btn btn-ghost">Book a Demo</a>
 </div>
-            </div>
-            <div class="hero-meta">
-              <div><strong>Dr. Terry Ramabulana</strong> · CEO, TIS Holdings · Professor of Practice (AI Governance), UJ</div>
-              <div>ESG is no longer marketing or CSR; it is risk management, competitive strategy and organisational resilience – combined.</div>
-            </div>
-          </div>
+<div class="hero-proof">
+<div class="proof"><div class="proof-val">8</div><div class="proof-label">AI Agents</div></div>
+<div class="proof"><div class="proof-val">7</div><div class="proof-label">ISO Frameworks</div></div>
+<div class="proof"><div class="proof-val">24</div><div class="proof-label">Market Coverage</div></div>
+<div class="proof"><div class="proof-val">1 of 3</div><div class="proof-label">ISO S4S Globally</div></div>
+</div>
+</section>
 
-          <aside class="hero-card">
-            <h2>Why this matters now</h2>
-            <p>
-              In the last 18 months, ESG has shifted from voluntary to regulated. Capital, regulators,
-              talent and communities are all acting on ESG performance.
-            </p>
-            <ul class="hero-list">
-              <li>IFRS S1 &amp; S2 being phased in for JSE issuers, with full adoption expected around 2026</li>
-              <li>EU CSRD, TNFD and sector rules (e.g. Mining Charter)</li>
-              <li>0.5–1.5% capital cost penalty for ESG laggards</li>
-            </ul>
-            <div class="trust-line">
-              Trusted by leaders in <span>commerce and industry, mining and universities</span>.
-            </div>
-          </aside>
-        </div>
-      </section>
+<!-- MANIFESTO -->
+<section class="manifesto">
+<div class="manifesto-inner">
+<q>PURPOSE drives behaviour. Every decision, every data point, every compliance action must flow from accountability, responsibility, governance, and integrity.</q>
+<cite>Dr Terry Ramabulana &mdash; CEO &amp; MD, TIS Holdings &middot; Professor of Practice in AI Governance, University of Johannesburg</cite>
+</div>
+</section>
 
-      <!-- RECKONING -->
-      <section id="reckoning" class="section">
-        <div class="shell">
-          <div class="section-heading">
-            <h2>The ESG Reckoning: the silent tax on laggards</h2>
-            <p>
-              The era of checkbox ESG is over. IFRS S1/S2, EU CSRD, TNFD and South African sector rules
-              have rewired both regulation and capital. Laggards are already paying a silent tax in higher
-              capital costs, insurance premiums, stranded assets and talent churn.
-            </p>
-          </div>
+<!-- INTELLIGENCE STACK -->
+<section class="stack">
+<div class="stack-inner">
+<div class="section-tag">The Architecture</div>
+<h2 class="section-title">Intelligence. Orchestration. Environment.</h2>
+<p class="section-sub">Three layers working in concert — Claude thinks, Orchestrate validates, Envizi grounds it in environmental truth.</p>
+<div class="stack-grid">
+<div class="stack-card">
+<div class="sc-icon">&#129504;</div>
+<div class="sc-name">Anthropic Claude</div>
+<div class="sc-desc">The intelligence engine. Eight specialised agents reason across ESG frameworks, ISO standards, and regulatory landscapes with deep domain expertise.</div>
+</div>
+<div class="stack-card">
+<div class="sc-icon">&#9881;</div>
+<div class="sc-name">IBM Watsonx Orchestrate</div>
+<div class="sc-desc">The conductor. Validates agent outputs, coordinates multi-agent workflows, and ensures enterprise-grade quality assurance across every interaction.</div>
+</div>
+<div class="stack-card">
+<div class="sc-icon">&#127758;</div>
+<div class="sc-name">IBM Envizi</div>
+<div class="sc-desc">The data environment. Carbon accounting, emissions factors, supply chain templates, and regulatory baselines — the authoritative ground truth.</div>
+</div>
+<div class="stack-card">
+<div class="sc-icon">&#128202;</div>
+<div class="sc-name">ESGBook &amp; CSRHub</div>
+<div class="sc-desc">The raw material. Sanitised environmental data from 60,000+ entities across 1,000+ authoritative sources, feeding intelligence with global coverage.</div>
+</div>
+<div class="stack-card">
+<div class="sc-icon">&#9989;</div>
+<div class="sc-name">DRATA Compliance</div>
+<div class="sc-desc">Continuous SOC2 monitoring. Automated evidence collection. 15 security integrations ensuring your compliance posture never sleeps.</div>
+</div>
+<div class="stack-card">
+<div class="sc-icon">&#9729;</div>
+<div class="sc-name">AWS Cloud</div>
+<div class="sc-desc">Enterprise infrastructure. Lambda, S3, SES, CloudWatch — with primary data residency in AWS Cape Town (af-south-1) for African data sovereignty.</div>
+</div>
+</div>
+</div>
+</section>
 
-          <div class="grid grid--3">
-            <article class="card">
-              <h3>Capital penalty</h3>
-              <p>
-                ESG laggards can face a higher cost of capital. For example, on a hypothetical R100M
-                facility, a 1.2% premium would mean over R6M in additional interest over five years.
-              </p>
-              <small>Cost of capital is now directly tied to ESG performance.</small>
-            </article>
+<!-- AGENTS -->
+<section class="agents">
+<div class="agents-inner">
+<div class="section-tag">Specialised Intelligence</div>
+<h2 class="section-title">Eight Agents. One Purpose.</h2>
+<p class="section-sub">Each agent is purpose-built for a specific compliance domain — no generic AI, no hallucinated frameworks.</p>
+<div class="agent-grid">
+<div class="agent"><div class="agent-num">AGENT 01</div><div class="agent-name">ESG Compliance</div><div class="agent-scope">GRI &middot; SASB &middot; TCFD &middot; CDP &middot; JSE requirements</div></div>
+<div class="agent"><div class="agent-num">AGENT 02</div><div class="agent-name">Supplier Risk</div><div class="agent-scope">Third-party assessment &middot; ISO 20400 &middot; SA8000 &middot; Supply chain</div></div>
+<div class="agent"><div class="agent-num">AGENT 03</div><div class="agent-name">Partnership Evaluation</div><div class="agent-scope">Strategic fit &middot; Due diligence &middot; TIS Partnership Framework</div></div>
+<div class="agent"><div class="agent-num">AGENT 04</div><div class="agent-name">Data Enrichment</div><div class="agent-scope">Company profiles &middot; Data quality &middot; Cross-reference validation</div></div>
+<div class="agent"><div class="agent-num">AGENT 05</div><div class="agent-name">Business Intelligence</div><div class="agent-scope">Market insights &middot; Competitive analysis &middot; Sector benchmarking</div></div>
+<div class="agent"><div class="agent-num">AGENT 06</div><div class="agent-name">ISO Standards</div><div class="agent-scope">14001 &middot; 45001 &middot; 50001 &middot; 27001 &middot; Cross-standard gap analysis</div></div>
+<div class="agent"><div class="agent-num">AGENT 07</div><div class="agent-name">GISTM Tailings</div><div class="agent-scope">Tailings management &middot; ICMM &middot; Mining Charter &middot; MHSA</div></div>
+<div class="agent"><div class="agent-num">AGENT 08</div><div class="agent-name">ISSB Climate</div><div class="agent-scope">IFRS S1 &amp; S2 &middot; Carbon accounting &middot; Climate scenario analysis</div></div>
+</div>
+</div>
+</section>
 
-            <article class="card">
-              <h3>Operational fragility</h3>
-              <p>
-                Without supplier ESG auditing, organisations face 30–40% more disruptions by 2026, with
-                higher insurance premiums and greater exposure to environmental and social incidents.
-              </p>
-              <small>Supply chains and communities are now ESG-sensitive.</small>
-            </article>
+<!-- GOVERNANCE -->
+<section class="governance">
+<div class="gov-inner">
+<div class="gov-grid">
+<div class="gov-text">
+<div class="section-tag">Philosophy</div>
+<h3>Governance Is Not a Feature.<br>It Is the Foundation.</h3>
+<p>Every platform claims compliance. We architected ours from governance outward — because the right security posture, the right audit trail, and the right data lineage cannot be bolted on after the fact.</p>
+<p>Our doctrine is simple: <strong style="color:#d4af37">No Data Without Lineage.</strong> Every record answers who created it, what it serves, when it changed, where it lives, why it exists, and how it was derived.</p>
+</div>
+<div class="gov-pillars">
+<div class="pillar"><div class="pillar-name">Accountability</div><div class="pillar-desc">Every document has a defined owner. Every decision has a record. Every action has a trail.</div></div>
+<div class="pillar"><div class="pillar-name">Responsibility</div><div class="pillar-desc">Clear custodianship at every stage. No orphaned data. No unowned processes.</div></div>
+<div class="pillar"><div class="pillar-name">Governance</div><div class="pillar-desc">Controlled access. Version management. Retention policies. Classification by design.</div></div>
+<div class="pillar"><div class="pillar-name">Integrity</div><div class="pillar-desc">Immutable audit trails. Tamper-evident storage. Truth you can verify, not just trust.</div></div>
+</div>
+</div>
+</div>
+</section>
 
-            <article class="card">
-              <h3>Talent &amp; reputation</h3>
-              <p>
-                ESG laggards experience 20–30% higher turnover of skilled professionals and growing
-                reputational drag with investors, customers and regulators.
-              </p>
-              <small>Employees and stakeholders are voting with their feet.</small>
-            </article>
-          </div>
-        </div>
-      </section>
+<!-- PARTNERS -->
+<section class="partners">
+<div class="partners-inner">
+<div class="section-tag">Trusted Ecosystem</div>
+<h2 class="section-title">Built With the Best</h2>
+<div class="partner-row">
+<div class="partner-item"><div class="partner-name">IBM</div><div class="partner-type">Business Partner Plus</div></div>
+<div class="partner-item"><div class="partner-name">Anthropic</div><div class="partner-type">Claude AI Partner</div></div>
+<div class="partner-item"><div class="partner-name">AWS</div><div class="partner-type">Cloud Infrastructure</div></div>
+<div class="partner-item"><div class="partner-name">DRATA</div><div class="partner-type">SOC2 Compliance</div></div>
+<div class="partner-item"><div class="partner-name">ISO</div><div class="partner-type">Standards4Sustainability</div></div>
+<div class="partner-item"><div class="partner-name">Univ. of Johannesburg</div><div class="partner-type">Academic Partnership</div></div>
+<div class="partner-item"><div class="partner-name">Univ. of Venda</div><div class="partner-type">5-Year Agreement</div></div>
+</div>
+</div>
+</section>
 
-      <!-- LAGGARD CHECKLIST -->
-      <section id="laggards" class="section section--light">
-        <div class="shell">
-          <div class="section-heading">
-            <h2>Is your organisation quietly an ESG laggard?</h2>
-            <p>
-              If three or more of these statements are true, your organisation sits in the laggard
-              category – and every month of delay adds 15–20% to your eventual cost of catching up.
-            </p>
-          </div>
+<!-- FINAL CTA -->
+<section class="final-cta">
+<div class="cta-box">
+<h2>Intelligence Meets Governance.</h2>
+<p>Start with a 14-day free trial. No credit card. No commitment. Just clarity on where your ESG compliance truly stands.</p>
+<div class="cta-actions">
+<a href="/register.html?plan=trial" class="btn btn-gold">Start Free Trial</a>
+<a href="https://book.titan.email/tis-holdings" target="_blank" class="btn btn-ghost">Schedule a Conversation</a>
+</div>
+</div>
+</section>
 
-          <div class="grid grid--2">
-            <div class="card">
-              <h3>Laggard indicators</h3>
-              <ul class="checklist">
-                <li>ESG is treated as a communications / CSR function, not strategic.</li>
-                <li>There is no dedicated Board-level sustainability / ESG committee.</li>
-                <li>Carbon emissions are tracked inconsistently, or not at all.</li>
-                <li>ESG reporting is annual and retrospective, not continuous.</li>
-                <li>Third-party assurance is minimal or absent.</li>
-                <li>Data sits in spreadsheets and email, not in a system of record.</li>
-                <li>No science-based targets or credible transition plan.</li>
-                <li>Stakeholder engagement is reactive, not proactive.</li>
-              </ul>
-              <p class="note"><strong>Three or more apply?</strong> You are a laggard – by definition.</p>
-            </div>
+<footer>
+<div class="footer-links">
+<a href="/dashboard.html">Dashboard</a>
+<a href="/assistant.html">AI Assistant</a>
+<a href="/pricing.html">Pricing</a>
+<a href="/training.html">Training</a>
+<a href="https://www.tis-holdings.com" target="_blank">TIS Holdings</a>
+</div>
+<div class="footer-copy">&copy; 2026 TIS Holdings Pty Ltd &mdash; ESG Navigator<br>Powered by Anthropic Claude &middot; IBM Watsonx &middot; AWS &middot; DRATA<br>PURPOSE drives behaviour &mdash; Accountability &middot; Responsibility &middot; Governance &middot; Integrity</div>
+</footer>
 
-            <div class="card">
-              <h3>What it’s costing you</h3>
-              <p>
-                For a mid-sized enterprise, the total cost of being a laggard over five years can easily
-                reach the tens of millions of rand once capital, insurance, remediation, penalties and
-                churn are accounted for.
-              </p>
-              <div class="stat-row">
-                <div class="stat-pill">R6M+ extra interest on a R100M loan (illustrative)</div>
-                <div class="stat-pill">15–25% higher insurance premiums</div>
-                <div class="stat-pill">Regulatory and remediation exposure</div>
-              </div>
-              <div class="btn-row" style="margin-top: 1.5rem;">
-                <a href="#fast-track" class="btn btn-primary">Request an ESG laggard risk review</a>
-                <a href="mailto:terry@tisholdings.co.za" class="btn btn-secondary">Talk to Dr. Terry Ramabulana</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- SEMANTIC INTELLIGENCE -->
-      <section class="section">
-        <div class="shell">
-          <div class="section-heading">
-            <h2>From manual ESG consulting to semantic intelligence</h2>
-            <p>
-              Traditional ESG consulting delivers a 200-page report and leaves you with the same
-              fragmented systems. TIS-IntelliMat takes a different approach: a living, AI-powered ESG
-              operating system built on semantic intelligence.
-            </p>
-          </div>
-
-          <div class="grid grid--3">
-            <article class="card">
-              <h3>Research &amp; compliance agents</h3>
-              <p>
-                Benchmark against 100+ peers, track 50+ ESG standards (IFRS S1/S2, GRI, SASB, TCFD,
-                ISSB, ISO, GISTM, Mining Charter) and surface gaps in near real time.
-              </p>
-            </article>
-            <article class="card">
-              <h3>Risk &amp; document agents</h3>
-              <p>
-                Model ESG risks probabilistically, generate heat maps, read policies and contracts at
-                50 pages per minute and flag inconsistencies humans might miss.
-              </p>
-            </article>
-            <article class="card">
-              <h3>Reporting &amp; strategy agents</h3>
-              <p>
-                Auto-assemble GRI, SASB, TCFD and ISSB-aligned reports, board dashboards and 3–5 year
-                ESG roadmaps with science-based targets and clear ROI.
-              </p>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <!-- 90-DAY FAST TRACK -->
-      <section id="fast-track" class="section section--light">
-        <div class="shell">
-          <div class="section-heading">
-            <h2>From laggard to fast-follower in 90 days</h2>
-            <p>
-              Traditional ESG transformation often takes 12–24 months and can cost R5M–R15M.
-              TIS-IntelliMat’s AI-powered approach typically moves clients to credible ESG maturity
-              in 3–6 months, with programmes usually starting from around R1.8M–R3M depending on
-              scope and complexity, and with continuous monitoring built in.
-            </p>
-          </div>
-
-          <div class="grid grid--2">
-            <div>
-              <ol class="steps">
-                <li>
-                  <div class="step-label">Month 1 · Foundation</div>
-                  <h3>AI maturity scan &amp; governance design</h3>
-                  <p>
-                    AI-powered ESG maturity assessment (two weeks, not three months), governance
-                    structure and Board oversight design, baseline metrics and data infrastructure.
-                  </p>
-                </li>
-                <li>
-                  <div class="step-label">Month 2 · Strategy &amp; systems</div>
-                  <h3>Targets, KPIs &amp; platform deployment</h3>
-                  <p>
-                    Science-based targets, KPI framework aligned to SASB/GRI/TCFD/ISSB, and deployment
-                    of the TIS-IntelliMat platform with real-time monitoring and dashboards.
-                  </p>
-                </li>
-                <li>
-                  <div class="step-label">Month 3 · Reporting &amp; assurance</div>
-                  <h3>Board-ready reporting and continuous improvement</h3>
-                  <p>
-                    First integrated sustainability report draft, assurance readiness pack and a live
-                    Board dashboard, with a continuous improvement loop anchored in data.
-                  </p>
-                </li>
-              </ol>
-            </div>
-            <div class="card">
-              <h3>What you gain</h3>
-              <p>
-                A measurable shift from laggard to fast-follower, transparent ESG data, credible
-                narrative, and an operating system that learns with your organisation.
-              </p>
-              <div class="stat-row">
-                <div class="stat-pill">Up to 80% less time spent on reporting</div>
-                <div class="stat-pill">Significant reduction in transformation cost</div>
-                <div class="stat-pill">Continuous, not annual, assurance</div>
-              </div>
-              <div class="btn-row" style="margin-top: 1.6rem;">
-                <a href="mailto:terry@tisholdings.co.za?subject=ESG%20Fast%20Track%2090-Day"
-                   class="btn btn-primary">
-                  Schedule a strategy consultation
-                </a>
-                <a href="#about" class="btn btn-secondary">Learn why organisations choose TIS-IntelliMat</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- WHY TIS -->
-      <section id="about" class="section">
-        <div class="shell">
-          <div class="section-heading">
-            <h2>Why leading organisations choose TIS-IntelliMat</h2>
-            <p>
-              ESG Navigator is developed by TIS Holdings as part of an enterprise-grade AI stack. The
-              platform combines academic rigour, field-tested ESG experience and ethical AI governance.
-            </p>
-          </div>
-
-          <div class="grid grid--3">
-            <article class="card">
-              <h3>Standards &amp; governance</h3>
-              <p>
-                Active participant in ISO-aligned pilot work facilitated by organisations such as
-                Standards4Sustainability, operating at the intersection of global standards, ESG
-                governance and AI ethics.
-              </p>
-            </article>
-            <article class="card">
-              <h3>Academic anchor</h3>
-              <p>
-                Professor of Practice (AI Governance) at the University of Johannesburg and ESG
-                technopreneurship partner at the University of Venda’s DCEEIIC.
-              </p>
-            </article>
-            <article class="card">
-              <h3>Technology stack</h3>
-              <p>
-                Leveraging technologies such as Anthropic Claude AI, IBM watsonx for AI governance and
-                secure cloud infrastructure, with optional integrations to tools like Drata and other
-                assurance platforms.
-              </p>
-            </article>
-          </div>
-        </div>
-      </section>
-    </main>
-
-    <footer>
-      <div class="shell footer-grid">
-        <div>
-          <div><strong>TIS Holdings Pty Ltd</strong> · ESG Navigator · IntelliMat</div>
-          <div>AI-enabled ESG-GRC for African enterprises.</div>
-        </div>
-        <div class="footer-links">
-          <a href="mailto:terry@tisholdings.co.za">Email</a>
-          <a href="https://www.esgnavigator.ai">Website</a>
-          <a href="#">LinkedIn</a>
-        </div>
-      </div>
-    </footer>
-  </div>
 </body>
 </html>
