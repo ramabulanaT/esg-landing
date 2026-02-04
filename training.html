@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><title>Training & Coaching | ESG Navigator</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Professional training in AI Governance, ESG Compliance, ISO Management Systems, and Digital Transformation. Facilitated by Dr Terry Ramabulana.">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:system-ui,-apple-system,sans-serif;background:#ffffff;color:#1a1a1a;min-height:100vh}
+header{border-bottom:1px solid #e8e8e8;position:sticky;top:0;z-index:10;background:rgba(255,255,255,0.97);backdrop-filter:blur(12px)}
+.hdr{max-width:1200px;margin:0 auto;padding:0 1.5rem;display:flex;align-items:center;justify-content:space-between;height:72px}
+.logo{display:flex;align-items:center;gap:.75rem;font-size:.875rem;letter-spacing:.12em;text-transform:uppercase;color:#1a1a1a;text-decoration:none;font-weight:600}
+.logo-icon{width:34px;height:34px;border-radius:999px;background:#d4af37;display:grid;place-items:center;font-size:.65rem;color:#fff;font-weight:700}
+nav a{font-size:.8rem;color:#666;text-decoration:none;margin-left:1.5rem;transition:color .2s}
+nav a:hover{color:#d4af37}
+nav a.active{color:#d4af37;font-weight:600}
+.wrap{max-width:1200px;margin:0 auto;padding:2rem 1.5rem}
+.hero{text-align:center;padding:2rem 0 2.5rem;border-bottom:1px solid #eee}
+.hero-label{font-size:.65rem;text-transform:uppercase;letter-spacing:.15em;color:#d4af37;font-weight:600;margin-bottom:.75rem}
+.hero h1{font-size:1.8rem;font-weight:700;color:#1a1a1a;max-width:700px;margin:0 auto;line-height:1.35}
+.hero p{font-size:.88rem;color:#888;margin-top:.75rem;line-height:1.6;max-width:620px;margin-left:auto;margin-right:auto}
+.gold-div{height:3px;background:linear-gradient(90deg,#d4af37,#e8cc6e,#d4af37);border-radius:2px;margin:1.25rem auto 0;max-width:120px}
+.facilitator{display:flex;align-items:center;gap:1rem;justify-content:center;margin-top:1.5rem;padding:1rem 1.5rem;background:#fafafa;border:1px solid #e8e8e8;border-radius:12px;max-width:500px;margin-left:auto;margin-right:auto}
+.fac-avatar{width:48px;height:48px;border-radius:999px;background:#d4af37;display:grid;place-items:center;color:#fff;font-weight:700;font-size:.85rem;flex-shrink:0}
+.fac-info{text-align:left}
+.fac-name{font-size:.82rem;font-weight:600;color:#1a1a1a}
+.fac-title{font-size:.7rem;color:#888;line-height:1.4}
+.section{padding:2.5rem 0}
+.section-label{font-size:.6rem;text-transform:uppercase;letter-spacing:.15em;color:#d4af37;font-weight:700;margin-bottom:.5rem}
+.section h2{font-size:1.2rem;font-weight:700;color:#1a1a1a;margin-bottom:.5rem}
+.section-sub{font-size:.82rem;color:#888;margin-bottom:1.5rem;line-height:1.5}
+.formats{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:2.5rem}
+.fmt{background:#fff;border:1px solid #e8e8e8;border-radius:12px;padding:1.25rem;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,0.04)}
+.fmt-icon{font-size:1.5rem;margin-bottom:.5rem}
+.fmt h4{font-size:.78rem;font-weight:600;color:#1a1a1a;margin-bottom:.25rem}
+.fmt p{font-size:.68rem;color:#999;line-height:1.4}
+.domains{display:grid;grid-template-columns:repeat(2,1fr);gap:1.25rem;margin-bottom:2rem}
+.domain{background:#fff;border:1px solid #e8e8e8;border-radius:14px;padding:1.5rem;box-shadow:0 1px 3px rgba(0,0,0,0.04);transition:border-color .2s}
+.domain:hover{border-color:rgba(212,175,55,0.4)}
+.domain-head{display:flex;align-items:center;gap:.75rem;margin-bottom:1rem}
+.domain-num{width:36px;height:36px;border-radius:10px;background:rgba(212,175,55,0.08);display:grid;place-items:center;font-size:.72rem;font-weight:700;color:#d4af37;flex-shrink:0}
+.domain-head h3{font-size:.88rem;font-weight:600;color:#1a1a1a;line-height:1.3}
+.domain p{font-size:.75rem;color:#777;line-height:1.6;margin-bottom:.75rem}
+.domain-topics{list-style:none;padding:0;margin-bottom:.75rem}
+.domain-topics li{font-size:.72rem;color:#666;padding:.2rem 0 .2rem .8rem;position:relative;line-height:1.45}
+.domain-topics li::before{content:"\2192";position:absolute;left:0;color:#d4af37;font-size:.6rem}
+.domain-meta{display:flex;gap:1rem;flex-wrap:wrap;padding-top:.75rem;border-top:1px solid #f0f0f0}
+.dm-item{font-size:.62rem;color:#999;display:flex;align-items:center;gap:.25rem}
+.dm-item strong{color:#555}
+.featured{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:2rem}
+.feat{background:#fff;border:1px solid #e8e8e8;border-radius:12px;padding:1.25rem;box-shadow:0 1px 3px rgba(0,0,0,0.04)}
+.feat-tag{font-size:.55rem;text-transform:uppercase;letter-spacing:.06em;font-weight:600;padding:.15rem .4rem;border-radius:4px;display:inline-block;margin-bottom:.5rem}
+.feat-tag.exec{background:rgba(212,175,55,0.1);color:#b8960b}
+.feat-tag.cert{background:rgba(34,197,94,0.1);color:#15803d}
+.feat-tag.workshop{background:rgba(59,130,246,0.1);color:#1d4ed8}
+.feat h4{font-size:.82rem;font-weight:600;color:#1a1a1a;margin-bottom:.35rem}
+.feat p{font-size:.7rem;color:#888;line-height:1.5;margin-bottom:.5rem}
+.feat-detail{font-size:.68rem;color:#aaa;line-height:1.5}
+.feat-price{font-size:.88rem;font-weight:700;color:#d4af37;margin-top:.5rem}
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:2rem}
+.price-card{background:#fff;border:1px solid #e8e8e8;border-radius:14px;padding:1.5rem;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,0.04)}
+.price-card.highlight{border-color:#d4af37;position:relative}
+.price-card.highlight::before{content:"Most Popular";position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:#d4af37;color:#fff;font-size:.55rem;padding:.2rem .6rem;border-radius:4px;font-weight:600;text-transform:uppercase;letter-spacing:.04em}
+.price-type{font-size:.68rem;text-transform:uppercase;letter-spacing:.08em;color:#999;font-weight:600;margin-bottom:.5rem}
+.price-val{font-size:1.5rem;font-weight:700;color:#1a1a1a}
+.price-unit{font-size:.72rem;color:#aaa;margin-bottom:.75rem}
+.price-features{list-style:none;padding:0;text-align:left}
+.price-features li{font-size:.72rem;color:#666;padding:.3rem 0 .3rem .8rem;position:relative;line-height:1.4}
+.price-features li::before{content:"\2713";position:absolute;left:0;color:#d4af37;font-size:.65rem;font-weight:700}
+.bundle-row{display:flex;gap:1rem;margin-top:1rem;justify-content:center;flex-wrap:wrap}
+.bundle{font-size:.68rem;background:#fafafa;border:1px solid #e8e8e8;border-radius:8px;padding:.4rem .8rem;color:#666}
+.bundle strong{color:#d4af37}
+.partners{display:flex;gap:2rem;justify-content:center;align-items:center;flex-wrap:wrap;padding:1.5rem 0;margin-bottom:1rem}
+.partner{text-align:center}
+.partner-name{font-size:.75rem;font-weight:600;color:#1a1a1a}
+.partner-type{font-size:.6rem;color:#aaa;margin-top:.15rem}
+.cta-section{text-align:center;padding:2.5rem 0;border-top:1px solid #eee;margin-top:1rem}
+.cta-section h2{font-size:1.3rem;font-weight:700;color:#1a1a1a;margin-bottom:.5rem}
+.cta-section p{font-size:.82rem;color:#888;margin-bottom:1.5rem;max-width:500px;margin-left:auto;margin-right:auto;line-height:1.6}
+.cta-buttons{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:.5rem;padding:.75rem 1.5rem;border-radius:10px;font-size:.82rem;font-weight:600;text-decoration:none;transition:all .25s}
+.btn-gold{background:linear-gradient(135deg,#d4af37,#e8cc6e);color:#000}
+.btn-gold:hover{transform:translateY(-1px);box-shadow:0 4px 20px rgba(212,175,55,0.25)}
+.btn-outline{background:transparent;border:1px solid #ddd;color:#666}
+.btn-outline:hover{border-color:#d4af37;color:#b8960b}
+footer{border-top:1px solid #e8e8e8;padding:1.5rem 0;text-align:center}
+footer .copy{font-size:.65rem;color:#ccc}
+footer a{color:#d4af37;text-decoration:none}
+@media(max-width:900px){.formats{grid-template-columns:repeat(2,1fr)}.domains{grid-template-columns:1fr}.featured{grid-template-columns:1fr}.pricing-grid{grid-template-columns:1fr}}
+@media(max-width:500px){.formats{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<header><div class="hdr">
+<a href="/" class="logo"><span class="logo-icon">ESG</span> ESG Navigator</a>
+<nav>
+<a href="/">Home</a>
+<a href="/dashboard.html">Dashboard</a>
+<a href="/assistant.html">AI Assistant</a>
+<a href="/insights.html">Insights</a>
+<a href="/training.html" class="active">Training</a>
+</nav>
+</div></header>
+
+<div class="wrap">
+
+<div class="hero">
+<div class="hero-label">Professional Development & Coaching</div>
+<h1>AI Governance, ESG Compliance & Digital Transformation Training</h1>
+<p>Sector-specific programmes across 8 domains — equipping leaders, professionals, and organisations with the governance capabilities demanded by global markets.</p>
+<div class="gold-div"></div>
+<div class="facilitator">
+<div class="fac-avatar">TR</div>
+<div class="fac-info">
+<div class="fac-name">Dr Terry Ramabulana</div>
+<div class="fac-title">PhD in AI Governance · Professor of Practice, University of Johannesburg<br>CEO & MD, TIS Holdings Pty Ltd · 25 years executive experience</div>
+</div>
+</div>
+</div>
+
+<!-- Delivery Formats -->
+<div class="section">
+<div class="section-label">Delivery Formats</div>
+<h2>Flexible Learning for Every Organisation</h2>
+<div class="formats">
+<div class="fmt"><div class="fmt-icon">&#128187;</div><h4>Virtual Live</h4><p>Weekly online sessions<br>2 hours per session<br>Interactive facilitation</p></div>
+<div class="fmt"><div class="fmt-icon">&#127970;</div><h4>In-Person</h4><p>On-premise delivery<br>Full-day workshops<br>Group bookings available</p></div>
+<div class="fmt"><div class="fmt-icon">&#127891;</div><h4>Certificate</h4><p>3–5 day intensive<br>Assessment included<br>TIS Holdings certification</p></div>
+<div class="fmt"><div class="fmt-icon">&#128188;</div><h4>Executive</h4><p>1–2 day programmes<br>Board & C-suite focus<br>Strategic orientation</p></div>
+</div>
+</div>
+
+<!-- 8 Domains -->
+<div class="section">
+<div class="section-label">The 8 Domains</div>
+<h2>Comprehensive Curriculum Aligned to Industry Requirements</h2>
+<p class="section-sub">Each domain runs over a maximum of 12 weeks with weekly online sessions. Companies can book group on-premise delivery with custom pricing.</p>
+
+<div class="domains">
+
+<div class="domain">
+<div class="domain-head"><div class="domain-num">01</div><h3>AI Governance & Ethics</h3></div>
+<p>Foundational programme for leaders managing AI systems, covering governance frameworks, responsible AI principles, and organisational implementation.</p>
+<ul class="domain-topics">
+<li>AI governance frameworks and oversight structures</li>
+<li>Responsible AI principles and ethical deployment</li>
+<li>Risk assessment for AI systems</li>
+<li>King IV and AI — board-level accountability</li>
+<li>Bias detection, fairness, and transparency</li>
+</ul>
+<div class="domain-meta"><div class="dm-item"><strong>12 weeks</strong> · Weekly</div><div class="dm-item"><strong>R35,000</strong> per participant</div><div class="dm-item"><strong>Certificate:</strong> AI Governance Practitioner</div></div>
+</div>
+
+<div class="domain">
+<div class="domain-head"><div class="domain-num">02</div><h3>Governance, Risk & Compliance</h3></div>
+<p>Corporate governance, risk management, and compliance frameworks covering King IV, ESG integration, and regulatory landscape.</p>
+<ul class="domain-topics">
+<li>Corporate governance frameworks and board structures</li>
+<li>ESG risk identification and assessment</li>
+<li>Compliance management systems</li>
+<li>King IV principles and application</li>
+<li>Internal audit and assurance in ESG context</li>
+</ul>
+<div class="domain-meta"><div class="dm-item"><strong>12 weeks</strong> · Weekly</div><div class="dm-item"><strong>R24,000</strong> per participant</div><div class="dm-item"><strong>Certificate:</strong> GRC Professional</div></div>
+</div>
+
+<div class="domain">
+<div class="domain-head"><div class="domain-num">03</div><h3>ESG Leadership & Sustainability</h3></div>
+<p>Strategic ESG programme covering environmental, social, and governance frameworks, reporting standards, and sustainability strategy.</p>
+<ul class="domain-topics">
+<li>ESG frameworks — GRI, SASB, ISSB, TCFD</li>
+<li>Climate risk and carbon management</li>
+<li>Social impact measurement and reporting</li>
+<li>JSE Sustainability Disclosure Guidance</li>
+<li>Stakeholder engagement and materiality</li>
+</ul>
+<div class="domain-meta"><div class="dm-item"><strong>12 weeks</strong> · Weekly</div><div class="dm-item"><strong>R28,000</strong> per participant</div><div class="dm-item"><strong>Certificate:</strong> ESG Leadership</div></div>
+</div>
+
+<div class="domain">
+<div class="domain-head"><div class="domain-num">04</div><h3>ISO Management Systems</h3></div>
+<p>Implementation-focused training across ISO 14001, 45001, 50001, and 27001 with practical gap analysis and audit preparation.</p>
+<ul class="domain-topics">
+<li>ISO 14001 Environmental Management implementation</li>
+<li>ISO 45001 Occupational Health & Safety</li>
+<li>ISO 50001 Energy Management</li>
+<li>ISO 27001 Information Security</li>
+<li>Integrated management systems and audit readiness</li>
+</ul>
+<div class="domain-meta"><div class="dm-item"><strong>12 weeks</strong> · Weekly</div><div class="dm-item"><strong>R35,000</strong> per participant</div><div class="dm-item"><strong>Certificate:</strong> ISO Implementation Specialist</div></div>
+</div>
+
+<div class="domain">
+<div class="domain-head"><div class="domain-num">05</div><h3>Mining Compliance & GISTM</h3></div>
+<p>Sector-specific programme covering GISTM tailings management, Mining Charter, Mine Health & Safety Act, and environmental compliance for mining operations.</p>
+<ul class="domain-topics">
+<li>GISTM implementation and conformance</li>
+<li>Mine Health & Safety Act compliance</li>
+<li>Mining Charter requirements and reporting</li>
+<li>Environmental impact and rehabilitation</li>
+<li>Community engagement and social licence</li>
+</ul>
+<div class="domain-meta"><div class="dm-item"><strong>12 weeks</strong> · Weekly</div><div class="dm-item"><strong>R42,000</strong> per participant</div><div class="dm-item"><strong>Certificate:</strong> Mining ESG Compliance</div></div>
+</div>
+
+<div class="domain">
+<div class="domain-head"><div class="domain-num">06</div><h3>Data Analytics & Business Intelligence</h3></div>
+<p>Data-driven decision making programme covering analytics tools, ESG data management, dashboard design, and business intelligence for compliance.</p>
+<ul class="domain-topics">
+<li>ESG data collection and management</li>
+<li>Dashboard design and KPI development</li>
+<li>Data governance and quality assurance</li>
+<li>Reporting automation and analytics</li>
+<li>Data lineage and audit trail management</li>
+</ul>
+<div class="domain-meta"><div class="dm-item"><strong>12 weeks</strong> · Weekly</div><div class="dm-item"><strong>R25,000</strong> per participant</div><div class="dm-item"><strong>Certificate:</strong> ESG Data Analytics</div></div>
+</div>
+
+<div class="domain">
+<div class="domain-head"><div class="domain-num">07</div><h3>Digital Transformation</h3></div>
+<p>Process automation and digital strategy programme covering RPA, cloud architecture, platform modernisation, and AI-powered workflow design.</p>
+<ul class="domain-topics">
+<li>Digital transformation strategy and roadmapping</li>
+<li>Robotic Process Automation (RPA) fundamentals</li>
+<li>Cloud architecture for compliance platforms</li>
+<li>AI-powered process automation</li>
+<li>Change management for digital adoption</li>
+</ul>
+<div class="domain-meta"><div class="dm-item"><strong>12 weeks</strong> · Weekly</div><div class="dm-item"><strong>R28,000</strong> per participant</div><div class="dm-item"><strong>Certificate:</strong> Digital Transformation</div></div>
+</div>
+
+<div class="domain">
+<div class="domain-head"><div class="domain-num">08</div><h3>Climate & Carbon Management</h3></div>
+<p>Specialised programme on climate risk, carbon accounting, ISSB disclosure, and transition planning for net-zero commitments.</p>
+<ul class="domain-topics">
+<li>Carbon accounting — Scope 1, 2, and 3 emissions</li>
+<li>ISSB climate disclosure (IFRS S1/S2)</li>
+<li>Climate scenario analysis and TCFD</li>
+<li>Transition planning and net-zero pathways</li>
+<li>Carbon markets and offset strategies</li>
+</ul>
+<div class="domain-meta"><div class="dm-item"><strong>12 weeks</strong> · Weekly</div><div class="dm-item"><strong>R25,000</strong> per participant</div><div class="dm-item"><strong>Certificate:</strong> Climate & Carbon Management</div></div>
+</div>
+
+</div>
+</div>
+
+<!-- Featured Programmes -->
+<div class="section" style="border-top:1px solid #eee;padding-top:2.5rem">
+<div class="section-label">Featured Programmes</div>
+<h2>Short Courses & Executive Workshops</h2>
+
+<div class="featured">
+<div class="feat"><span class="feat-tag exec">Executive</span><h4>AI Fundamentals for Leaders</h4><p>Strategic overview of AI capabilities, risks, and governance for board members and C-suite executives.</p><div class="feat-detail">1 day · Max 10 participants</div><div class="feat-price">R18,000 per participant</div></div>
+<div class="feat"><span class="feat-tag cert">Certificate</span><h4>GISTM Implementation</h4><p>Intensive programme on Global Industry Standard on Tailings Management conformance and audit readiness.</p><div class="feat-detail">3 days · Max 15 participants</div><div class="feat-price">R42,000 per participant</div></div>
+<div class="feat"><span class="feat-tag workshop">Workshop</span><h4>ESG Essentials</h4><p>One-day foundational workshop covering ESG frameworks, reporting standards, and compliance requirements.</p><div class="feat-detail">1 day · Max 25 participants</div><div class="feat-price">R12,000 per participant</div></div>
+<div class="feat"><span class="feat-tag cert">Certificate</span><h4>ISO 27001 Implementation</h4><p>Comprehensive information security management system implementation with practical exercises.</p><div class="feat-detail">4 days · Max 15 participants</div><div class="feat-price">R48,000 per participant</div></div>
+<div class="feat"><span class="feat-tag exec">Executive</span><h4>King IV Essentials</h4><p>Board governance programme covering King IV principles, ESG committee formation, and oversight frameworks.</p><div class="feat-detail">1 day · Max 10 participants</div><div class="feat-price">R18,000 per participant</div></div>
+<div class="feat"><span class="feat-tag workshop">Workshop</span><h4>Carbon Accounting</h4><p>Hands-on workshop covering Scope 1, 2, and 3 emissions calculation, reporting, and reduction strategies.</p><div class="feat-detail">2 days · Max 20 participants</div><div class="feat-price">R25,000 per participant</div></div>
+</div>
+</div>
+
+<!-- Pricing -->
+<div class="section" style="border-top:1px solid #eee;padding-top:2.5rem">
+<div class="section-label">Investment</div>
+<h2>Per-Participant Pricing</h2>
+
+<div class="pricing-grid">
+<div class="price-card">
+<div class="price-type">Workshop</div>
+<div class="price-val">R3,500</div>
+<div class="price-unit">per person · 1 day</div>
+<ul class="price-features">
+<li>Half or full-day workshop</li>
+<li>Course materials included</li>
+<li>Certificate of attendance</li>
+<li>Virtual or in-person</li>
+</ul>
+</div>
+<div class="price-card highlight">
+<div class="price-type">Short Course</div>
+<div class="price-val">R6,500</div>
+<div class="price-unit">per person · 2 days</div>
+<ul class="price-features">
+<li>Two-day intensive programme</li>
+<li>Practical exercises included</li>
+<li>Assessment and certification</li>
+<li>Post-course support (30 days)</li>
+</ul>
+</div>
+<div class="price-card">
+<div class="price-type">Certificate</div>
+<div class="price-val">R12,500</div>
+<div class="price-unit">per person · 3–5 days</div>
+<ul class="price-features">
+<li>Full certificate programme</li>
+<li>Comprehensive assessment</li>
+<li>TIS Holdings certification</li>
+<li>Post-course support (90 days)</li>
+</ul>
+</div>
+</div>
+
+<div class="bundle-row">
+<div class="bundle"><strong>3 programmes:</strong> 10% discount</div>
+<div class="bundle"><strong>5 programmes:</strong> 15% discount</div>
+<div class="bundle"><strong>10+ programmes:</strong> 20% discount</div>
+<div class="bundle"><strong>Annual partnership:</strong> 25% discount</div>
+</div>
+
+<p style="text-align:center;font-size:.75rem;color:#999;margin-top:1.5rem">Group on-premise bookings and enterprise training packages available on request.<br>Contact <a href="mailto:info@tisholdings.co.za" style="color:#d4af37;text-decoration:none">info@tisholdings.co.za</a> for custom proposals.</p>
+</div>
+
+<!-- Academic Partners -->
+<div class="section" style="border-top:1px solid #eee;padding-top:2rem">
+<div class="section-label">Academic & Strategic Partners</div>
+<h2 style="text-align:center;margin-bottom:1.5rem">Trusted By Leading Institutions</h2>
+<div class="partners">
+<div class="partner"><div class="partner-name">University of Johannesburg</div><div class="partner-type">Academic Partnership · AI Governance</div></div>
+<div class="partner"><div class="partner-name">University of Venda</div><div class="partner-type">5-Year Agreement · Digital Transformation</div></div>
+<div class="partner"><div class="partner-name">IBM</div><div class="partner-type">Business Partner Plus · watsonx</div></div>
+<div class="partner"><div class="partner-name">Anthropic</div><div class="partner-type">AI Partnership · Claude</div></div>
+<div class="partner"><div class="partner-name">ISO</div><div class="partner-type">Standards4Sustainability Programme</div></div>
+</div>
+</div>
+
+<!-- CTA -->
+<div class="cta-section">
+<h2>Invest in Your Organisation's ESG Capability</h2>
+<p>Education is the bedrock of all industries. Equip your team with the governance, compliance, and digital transformation skills demanded by global markets.</p>
+<div class="cta-buttons">
+<a href="mailto:info@tisholdings.co.za?subject=Training%20Enquiry%20-%20ESG%20Navigator" class="btn btn-gold">Enquire Now &#8594;</a>
+<a href="/dashboard.html" class="btn btn-outline">View Platform</a>
+<a href="https://www.tis-holdings.com" class="btn btn-outline" target="_blank">TIS Holdings &#8594;</a>
+</div>
+</div>
+
+</div>
+
+<footer>
+<div class="copy">&copy; 2026 <a href="https://www.tis-holdings.com">TIS Holdings Pty Ltd</a> &mdash; ESG Navigator. Powered by Anthropic Claude &amp; IBM watsonx. PURPOSE drives behaviour.</div>
+</footer>
+
+</body>
+</html>
