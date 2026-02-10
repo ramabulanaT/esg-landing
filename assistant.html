@@ -1,50 +1,290 @@
 <!DOCTYPE html>
 <html lang="en">
-<head><meta charset="UTF-8"><title>AI Assistant | ESG Navigator</title><meta name="viewport" content="width=device-width,initial-scale=1"></head>
-<body style="margin:0;font-family:system-ui;background:#050505;color:#fff;min-height:100vh;display:flex;flex-direction:column;background:radial-gradient(circle at top left,#1c1c1c 0,#050505 48%,#000 100%)">
-<header style="border-bottom:1px solid rgba(255,255,255,0.08);position:sticky;top:0;z-index:10;background:rgba(5,5,5,0.94)"><div style="max-width:1120px;margin:0 auto;padding:0 1.5rem;display:flex;align-items:center;justify-content:space-between;height:72px"><a href="/" style="display:flex;align-items:center;gap:.75rem;font-size:.875rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,0.78);text-decoration:none"><span style="width:32px;height:32px;border-radius:999px;border:1px solid #d4af37;display:grid;place-items:center;font-size:.7rem;color:#d4af37;font-weight:700">ESG</span> ESG Navigator</a><nav style="display:flex;gap:1.5rem"><a href="/" style="font-size:.8rem;color:rgba(255,255,255,0.55);text-decoration:none">Home</a> <a href="/dashboard.html" style="font-size:.8rem;color:rgba(255,255,255,0.55);text-decoration:none">Dashboard</a> <a href="/assistant.html" style="font-size:.8rem;color:#d4af37;text-decoration:none">AI Assistant</a> <a href="/insights.html" style="font-size:.8rem;color:rgba(255,255,255,0.55);text-decoration:none">Insights</a></nav></div></header>
-<div style="max-width:860px;width:100%;margin:0 auto;padding:0 1.5rem;flex:1;display:flex;flex-direction:column">
-<div style="padding:1.5rem 0 1rem;border-bottom:1px solid rgba(255,255,255,0.08)"><h1 style="font-size:1.15rem;font-weight:600">ESG Navigator AI Assistant</h1><p style="font-size:.8rem;color:rgba(255,255,255,0.4);margin-top:.25rem">Powered by 9 specialised AI agents — ISO 14001, ISO 45001, ISO 50001, GISTM, ISSB, Supplier Risk & more</p></div>
-<div id="msgs" style="flex:1;overflow-y:auto;padding:1.5rem 0;display:flex;flex-direction:column;gap:1rem"></div>
-<div id="qp" style="display:flex;flex-wrap:wrap;gap:.5rem;padding:.75rem 0"></div>
-<div style="border-top:1px solid rgba(255,255,255,0.08);padding:1rem 0 1.5rem;display:flex;gap:.75rem;align-items:flex-end"><div style="flex:1;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:.75rem 1rem"><textarea id="inp" rows="1" placeholder="Ask about supplier ESG, compliance, or risk..." style="width:100%;background:none;border:none;color:#fff;font-family:system-ui;font-size:.88rem;resize:none;outline:none;line-height:1.5"></textarea></div><button id="sbtn" style="width:44px;height:44px;border-radius:10px;border:none;background:#d4af37;color:#000;cursor:pointer;display:grid;place-items:center;font-size:1.1rem;font-weight:700">&#8594;</button></div>
+<head>
+<meta charset="UTF-8"><title>AI Assistant | ESG Navigator</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:system-ui,-apple-system,sans-serif;background:#0a0a0f;color:#fff;height:100vh;display:flex;flex-direction:column}
+header{background:rgba(10,10,15,.95);border-bottom:1px solid rgba(255,255,255,.06);padding:0 2rem;height:56px;display:flex;align-items:center;justify-content:space-between}
+.logo{display:flex;align-items:center;gap:.6rem;text-decoration:none;color:#fff;font-size:.82rem;font-weight:600;letter-spacing:.06em}
+.logo-mark{width:28px;height:28px;border-radius:6px;background:linear-gradient(135deg,#d4af37,#b8960b);display:grid;place-items:center;font-size:.5rem;font-weight:800;color:#000}
+nav a{font-size:.78rem;color:rgba(255,255,255,.45);text-decoration:none;margin-left:1.5rem}
+nav a:hover{color:#d4af37}
+nav a.active{color:#d4af37}
+.container{max-width:1100px;width:100%;margin:0 auto;padding:1.5rem 2rem;flex:1;display:flex;gap:1.5rem;overflow:hidden}
+/* Sidebar */
+.sidebar{width:280px;flex-shrink:0;display:flex;flex-direction:column;gap:1rem}
+.search-box{position:relative}
+.search-box input{width:100%;padding:.65rem 1rem .65rem 2.2rem;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:8px;color:#fff;font-size:.82rem;outline:none}
+.search-box input:focus{border-color:#d4af37}
+.search-box::before{content:'🔍';position:absolute;left:.7rem;top:50%;transform:translateY(-50%);font-size:.7rem}
+.company-list{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:2px}
+.company-item{padding:.6rem .8rem;border-radius:6px;cursor:pointer;font-size:.78rem;display:flex;justify-content:space-between;align-items:center;transition:background .15s}
+.company-item:hover{background:rgba(212,175,55,.08)}
+.company-item.selected{background:rgba(212,175,55,.15);border-left:2px solid #d4af37}
+.company-item .score{font-size:.7rem;font-weight:600;padding:2px 6px;border-radius:4px}
+.score-high{background:rgba(34,197,94,.15);color:#22c55e}
+.score-mid{background:rgba(234,179,8,.15);color:#eab308}
+.score-low{background:rgba(239,68,68,.15);color:#ef4444}
+.sector-filter{display:flex;flex-wrap:wrap;gap:4px}
+.sector-btn{font-size:.65rem;padding:3px 8px;border-radius:4px;border:1px solid rgba(255,255,255,.08);background:none;color:rgba(255,255,255,.5);cursor:pointer}
+.sector-btn:hover,.sector-btn.active{border-color:#d4af37;color:#d4af37}
+.stats-bar{font-size:.7rem;color:rgba(255,255,255,.35);padding:.5rem 0;border-top:1px solid rgba(255,255,255,.06)}
+/* Chat area */
+.chat-area{flex:1;display:flex;flex-direction:column;min-width:0}
+.chat-header{padding:.75rem 0;border-bottom:1px solid rgba(255,255,255,.06);margin-bottom:1rem}
+.chat-header h2{font-size:1rem;font-weight:600}
+.chat-header p{font-size:.75rem;color:rgba(255,255,255,.35);margin-top:.2rem}
+#msgs{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:1rem;padding-bottom:1rem}
+.msg{max-width:85%;padding:.85rem 1.1rem;border-radius:10px;font-size:.84rem;line-height:1.6}
+.msg.bot{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);align-self:flex-start}
+.msg.user{background:rgba(212,175,55,.12);border:1px solid rgba(212,175,55,.2);align-self:flex-end}
+.msg pre{background:rgba(0,0,0,.3);padding:.5rem;border-radius:4px;overflow-x:auto;font-size:.75rem;margin:.5rem 0}
+.msg strong{color:#d4af37}
+.input-area{border-top:1px solid rgba(255,255,255,.06);padding:1rem 0 0;display:flex;gap:.75rem}
+.input-area textarea{flex:1;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:.75rem 1rem;color:#fff;font-family:system-ui;font-size:.84rem;resize:none;outline:none;line-height:1.5}
+.input-area textarea:focus{border-color:#d4af37}
+.send-btn{width:44px;height:44px;border-radius:10px;border:none;background:#d4af37;color:#000;cursor:pointer;font-size:1.1rem;font-weight:700}
+.send-btn:hover{background:#c4a030}
+.send-btn:disabled{opacity:.4;cursor:not-allowed}
+/* Analysis card */
+.analysis-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:1rem;margin:.5rem 0}
+.analysis-card h3{font-size:.9rem;color:#d4af37;margin-bottom:.75rem}
+.esg-bars{display:flex;gap:1rem;margin:.5rem 0}
+.esg-bar{flex:1}
+.esg-bar label{font-size:.65rem;color:rgba(255,255,255,.5);display:block;margin-bottom:4px}
+.esg-bar .bar{height:6px;border-radius:3px;background:rgba(255,255,255,.08)}
+.esg-bar .bar-fill{height:100%;border-radius:3px;transition:width .5s}
+.bar-e .bar-fill{background:#22c55e}
+.bar-s .bar-fill{background:#3b82f6}
+.bar-g .bar-fill{background:#a855f7}
+.metric-row{display:flex;justify-content:space-between;font-size:.78rem;padding:.3rem 0;border-bottom:1px solid rgba(255,255,255,.04)}
+.metric-row:last-child{border:none}
+.loading{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,.1);border-top-color:#d4af37;border-radius:50%;animation:spin .6s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media(max-width:768px){.container{flex-direction:column}.sidebar{width:100%;max-height:200px}}
+</style>
+</head>
+<body>
+<header>
+<a href="/" class="logo"><span class="logo-mark">ESG</span>ESG NAVIGATOR</a>
+<nav><a href="/dashboard.html">Dashboard</a><a href="/assistant.html" class="active">Assistant</a><a href="/pricing.html">Pricing</a><a href="/training.html">Training</a></nav>
+</header>
+<div class="container">
+<div class="sidebar">
+<div class="search-box"><input type="text" id="search" placeholder="Search 307 companies..."></div>
+<div class="sector-filter" id="sectors"></div>
+<div class="stats-bar" id="stats">Loading companies...</div>
+<div class="company-list" id="companyList"></div>
 </div>
-<footer style="border-top:1px solid rgba(255,255,255,0.08);padding:1.25rem 0;text-align:center;font-size:.72rem;color:rgba(255,255,255,0.25)"><span style="display:block;color:rgba(212,175,55,0.5);margin-bottom:.35rem">DEMO DATA — FOR ILLUSTRATION PURPOSES ONLY. All company names are fictional.</span>&#169; 2026 TIS Holdings Pty Ltd &#8212; ESG Navigator AI. Powered by Anthropic Claude.</footer>
+<div class="chat-area">
+<div class="chat-header"><h2>ESG Intelligence Assistant</h2><p>Powered by 9 AI agents — Select a company or ask a question</p></div>
+<div id="msgs"></div>
+<div class="input-area">
+<textarea id="inp" rows="1" placeholder="Ask about any company's ESG performance, compliance, or risk..."></textarea>
+<button class="send-btn" id="sbtn">→</button>
+</div>
+</div>
+</div>
 <script>
-var S=[
-{n:"Kopanong Mining Group",sec:"Mining",v:"R134M",s:72,r:"HIGH",i:3,a:"2026-03-15",e:64,so:76,g:75,c:["ISO 14001:2015","ISO 45001:2018","ISO 9001:2015"],vi:[{t:"Environmental",sv:"major",d:"Tailings storage facility seepage above threshold",st:"in-progress"},{t:"Health & Safety",sv:"moderate",d:"Lost-time injury frequency rate above target",st:"in-progress"},{t:"Governance",sv:"minor",d:"Delayed GISTM conformance declaration",st:"resolved"}]},
-{n:"Lephalale Resources",sec:"Mining",v:"R87M",s:79,r:"MEDIUM",i:1,a:"2026-04-10",e:77,so:82,g:78,c:["ISO 14001:2015","ISO 45001:2018","ISO 50001:2018","ISO 9001:2015"],vi:[{t:"Environmental",sv:"minor",d:"Water recycling rate below 80% target",st:"in-progress"}]},
-{n:"Tshwane Medical Holdings",sec:"Health",v:"R62M",s:84,r:"LOW",i:0,a:"2026-05-20",e:81,so:88,g:83,c:["ISO 14001:2015","ISO 45001:2018","ISO 27001:2013","ISO 9001:2015"],vi:[]},
-{n:"Highveld Health Systems",sec:"Health",v:"R41M",s:77,r:"MEDIUM",i:1,a:"2026-03-28",e:73,so:80,g:78,c:["ISO 14001:2015","ISO 9001:2015"],vi:[{t:"Social",sv:"moderate",d:"Staff wellness programme participation below 60%",st:"in-progress"}]},
-{n:"Ubuntu Capital Bank",sec:"Financial Services",v:"R210M",s:86,r:"LOW",i:0,a:"2026-04-05",e:83,so:87,g:88,c:["ISO 14001:2015","ISO 27001:2013","ISO 22301:2019","ISO 9001:2015","King IV"],vi:[]},
-{n:"Rand Mutual Financial",sec:"Financial Services",v:"R95M",s:81,r:"LOW",i:1,a:"2026-05-12",e:79,so:82,g:82,c:["ISO 27001:2013","ISO 9001:2015","King IV"],vi:[{t:"Governance",sv:"minor",d:"Board ESG committee charter review overdue",st:"in-progress"}]},
-{n:"Southern Cross University Group",sec:"Education",v:"R38M",s:74,r:"MEDIUM",i:2,a:"2026-03-01",e:70,so:78,g:74,c:["ISO 14001:2015","ISO 21001:2018","ISO 9001:2015"],vi:[{t:"Environmental",sv:"minor",d:"Campus energy consumption above reduction target",st:"in-progress"},{t:"Governance",sv:"moderate",d:"Research ethics framework not aligned to latest DHET requirements",st:"in-progress"}]}
-];
-var secs={};S.forEach(function(x){if(!secs[x.sec])secs[x.sec]=[];secs[x.sec].push(x)});
-var msgs=document.getElementById("msgs"),qp=document.getElementById("qp"),inp=document.getElementById("inp"),sbtn=document.getElementById("sbtn");
-function addMsg(r,t){var d=document.createElement("div");d.style.cssText="max-width:85%;padding:1rem 1.25rem;border-radius:12px;font-size:.88rem;line-height:1.65;animation:fi .3s ease";if(r==="user"){d.style.cssText+=";align-self:flex-end;background:rgba(212,175,55,0.12);border:1px solid rgba(212,175,55,0.2)";d.textContent=t}else{d.style.cssText+=";align-self:flex-start;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08)";d.innerHTML="<div style='font-size:.68rem;text-transform:uppercase;letter-spacing:.06em;color:#d4af37;margin-bottom:.5rem;font-weight:600'>ESG Navigator AI</div><div>"+t.replace(/\*\*(.*?)\*\*/g,"<strong>$1</strong>").replace(/\n\n/g,"<br><br>").replace(/\n/g,"<br>")+"</div>"}msgs.appendChild(d);msgs.scrollTop=msgs.scrollHeight}
-function analyze(q){var l=q.toLowerCase();
-if(l.match(/portfolio|all supplier|overview|scores/)){var tv=0;var lines=[];Object.keys(secs).forEach(function(k){lines.push("**"+k+":**");secs[k].forEach(function(x){tv+=parseInt(x.v.replace(/\D/g,""));lines.push("  "+x.n+" — ESG: "+x.s+"/100 ("+x.r+") | "+x.v+"\n  E:"+x.e+" S:"+x.so+" G:"+x.g)})});return"**Multi-Sector ESG Portfolio Overview**\n\nTotal portfolio value: R"+tv+"M across "+S.length+" organisations in "+Object.keys(secs).length+" sectors.\n\n"+lines.join("\n\n")+"\n\n**Insight:** Average portfolio ESG score is "+Math.round(S.reduce(function(a,x){return a+x.s},0)/S.length)+"/100. Ubuntu Capital Bank leads at 86, Kopanong Mining requires priority attention at 72."}
-if(l.match(/sector|industry|breakdown/)){var out=[];Object.keys(secs).forEach(function(k){var arr=secs[k];var av=Math.round(arr.reduce(function(a,x){return a+x.s},0)/arr.length);var tv=arr.reduce(function(a,x){return a+parseInt(x.v.replace(/\D/g,""))},0);out.push("**"+k+"** ("+arr.length+" organisations)\nAverage ESG: "+av+"/100 | Combined value: R"+tv+"M\nEntities: "+arr.map(function(x){return x.n+" ("+x.s+")"}).join(", "))});return"**Sector Performance Analysis**\n\n"+out.join("\n\n")+"\n\n**Cross-sector insight:** Financial Services leads with strongest governance frameworks (King IV alignment). Mining sector requires focused environmental remediation. Education sector shows opportunity for energy efficiency improvement."}
-if(l.match(/risk|compliance|violation|issue/)){var hi=S.filter(function(x){return x.r==="HIGH"});var med=S.filter(function(x){return x.r==="MEDIUM"});var issues=[];S.forEach(function(x){x.vi.forEach(function(v){issues.push("**"+x.n+"** ["+x.sec+"] — "+v.t+" ("+v.sv+"): "+v.d+" ["+v.st+"]")})});return"**Risk & Compliance Analysis**\n\n**High-risk ("+hi.length+"):** "+hi.map(function(x){return x.n}).join(", ")+"\n**Medium-risk ("+med.length+"):** "+med.map(function(x){return x.n}).join(", ")+"\n\n**Open issues ("+issues.length+"):**\n\n"+issues.join("\n\n")+"\n\n**Priority action:** Kopanong Mining Group tailings facility seepage requires immediate GISTM-aligned remediation plan. Escalate to board risk committee per King IV Principle 11."}
-if(l.match(/mining/)){var m=secs["Mining"]||[];return"**Mining Sector ESG Analysis**\n\n"+m.map(function(x){var vi=x.vi.map(function(v){return"  - "+v.t+" ("+v.sv+"): "+v.d+" ["+v.st+"]"}).join("\n");return"**"+x.n+"** — ESG: "+x.s+"/100 | Risk: "+x.r+" | Value: "+x.v+"\nE:"+x.e+" S:"+x.so+" G:"+x.g+"\nCertifications: "+x.c.join(", ")+(vi?"\nIssues:\n"+vi:"\nNo open issues.")}).join("\n\n")+"\n\n**Mining-specific frameworks:** GISTM tailings management, ICMM Performance Expectations, Mine Health & Safety Act compliance. ISO 45001 critical for occupational health in underground and surface operations."}
-if(l.match(/health|medical|hospital/)){var h=secs["Health"]||[];return"**Health Sector ESG Analysis**\n\n"+h.map(function(x){var vi=x.vi.map(function(v){return"  - "+v.t+" ("+v.sv+"): "+v.d+" ["+v.st+"]"}).join("\n");return"**"+x.n+"** — ESG: "+x.s+"/100 | Risk: "+x.r+" | Value: "+x.v+"\nE:"+x.e+" S:"+x.so+" G:"+x.g+"\nCertifications: "+x.c.join(", ")+(vi?"\nIssues:\n"+vi:"\nNo open issues.")}).join("\n\n")+"\n\n**Health-specific considerations:** NHA compliance, medical waste management (ISO 14001), patient data protection (POPIA/ISO 27001), occupational health for healthcare workers (ISO 45001)."}
-if(l.match(/financ|bank|capital/)){var f=secs["Financial Services"]||[];return"**Financial Services Sector ESG Analysis**\n\n"+f.map(function(x){var vi=x.vi.map(function(v){return"  - "+v.t+" ("+v.sv+"): "+v.d+" ["+v.st+"]"}).join("\n");return"**"+x.n+"** — ESG: "+x.s+"/100 | Risk: "+x.r+" | Value: "+x.v+"\nE:"+x.e+" S:"+x.so+" G:"+x.g+"\nCertifications: "+x.c.join(", ")+(vi?"\nIssues:\n"+vi:"\nNo open issues.")}).join("\n\n")+"\n\n**Financial services frameworks:** King IV governance, ISSB climate disclosure (IFRS S1/S2), JSE Sustainability Disclosure Guidance, Basel III ESG risk integration, FSCA regulatory compliance, POPIA data protection."}
-if(l.match(/educat|university|campus/)){var e=secs["Education"]||[];return"**Education Sector ESG Analysis**\n\n"+e.map(function(x){var vi=x.vi.map(function(v){return"  - "+v.t+" ("+v.sv+"): "+v.d+" ["+v.st+"]"}).join("\n");return"**"+x.n+"** — ESG: "+x.s+"/100 | Risk: "+x.r+" | Value: "+x.v+"\nE:"+x.e+" S:"+x.so+" G:"+x.g+"\nCertifications: "+x.c.join(", ")+(vi?"\nIssues:\n"+vi:"\nNo open issues.")}).join("\n\n")+"\n\n**Education-specific frameworks:** DHET compliance, ISO 21001 educational management, campus carbon footprint reduction, research ethics governance, NSFAS/financial aid oversight, NQF alignment."}
-if(l.match(/compare|vs/)){var m=S.filter(function(x){return l.indexOf(x.n.split(" ")[0].toLowerCase())>=0});if(m.length>=2){var a=m[0],b=m[1];return"**"+a.n+" vs "+b.n+"**\n\nSector: "+a.sec+" vs "+b.sec+"\nESG Score: "+a.s+" vs "+b.s+"\nEnvironmental: "+a.e+" vs "+b.e+"\nSocial: "+a.so+" vs "+b.so+"\nGovernance: "+a.g+" vs "+b.g+"\nRisk: "+a.r+" vs "+b.r+"\nOpen issues: "+a.i+" vs "+b.i+"\n\n**Analysis:** "+(a.s>b.s?a.n:b.n)+" leads with stronger ESG profile. "+(a.sec!==b.sec?"Cross-sector comparison accounts for different regulatory environments.":"")}}
-if(l.match(/audit|schedule|upcoming/)){return"**Upcoming Audit Schedule**\n\n"+S.sort(function(a,b){return a.a>b.a?1:-1}).map(function(x){return"**"+x.n+"** ["+x.sec+"] — Next audit: "+x.a}).join("\n\n")+"\n\nPrepare pre-audit documentation 30 days before each date per ISO 19011:2018 guidelines. Ensure corrective actions from previous audits are closed out."}
-if(l.match(/iso|certification|certif/)){return"**ISO Certification Matrix by Sector**\n\n"+Object.keys(secs).map(function(k){return"**"+k+":**\n"+secs[k].map(function(x){return"  "+x.n+": "+x.c.join(", ")}).join("\n")}).join("\n\n")+"\n\n**Gap analysis:** Kopanong Mining lacks ISO 50001 (energy management) — critical for mining energy costs. Highveld Health missing ISO 27001 — high risk given patient data sensitivity. Southern Cross University should pursue ISO 27001 for research data protection."}
-if(l.match(/executive|summary|board/)){var av=Math.round(S.reduce(function(a,x){return a+x.s},0)/S.length);var ti=S.reduce(function(a,x){return a+x.i},0);var tv=S.reduce(function(a,x){return a+parseInt(x.v.replace(/\D/g,""))},0);return"**Executive ESG Portfolio Summary**\n\nPortfolio value: R"+tv+"M across "+Object.keys(secs).length+" sectors\nAverage ESG score: "+av+"/100\nActive organisations: "+S.length+"\nOpen compliance issues: "+ti+"\n\n**Top performer:** Ubuntu Capital Bank (86/100) — comprehensive King IV alignment, ISO 27001/22301 certified, zero open issues.\n\n**Priority attention:** Kopanong Mining Group (72/100) — 3 open issues including major tailings facility concern requiring GISTM-aligned response.\n\n**Sector highlights:**\n- Financial Services leads governance (avg 85)\n- Health sector strong on social metrics (avg 84)\n- Mining requires environmental focus (avg 71)\n- Education needs energy and governance investment\n\n**Recommendation:** Focus Q1 2026 on Kopanong Mining remediation, Highveld Health ISO 27001 gap closure, and Southern Cross University governance alignment. Quarterly reviews per TIS Holdings Governance Framework."}
-if(l.match(/gistm|tailings/)){return"**GISTM Compliance Assessment**\n\n**Global Industry Standard on Tailings Management** applies to mining sector entities.\n\n**Kopanong Mining Group:** Non-conformance identified — tailings storage facility seepage above threshold. Requires:\n1. Independent technical review of TSF integrity\n2. Updated emergency preparedness plan\n3. Enhanced monitoring with real-time sensors\n4. Disclosure to affected communities per GISTM Principle 15\n5. Board-level accountability per GISTM Principle 1\n\n**Lephalale Resources:** Compliant — water recycling programme supports tailings water management. GISTM conformance declaration on schedule.\n\n**Framework alignment:** ICMM, UNEP, PRI co-convened standard. 77 requirements across 6 topics. Annual conformance declarations mandatory for ICMM members."}
-if(l.match(/issb|climate|disclosure/)){return"**ISSB Climate Disclosure Readiness**\n\n**IFRS S1 (General)** and **IFRS S2 (Climate)** assessment across portfolio:\n\n**Ready:** Ubuntu Capital Bank, Rand Mutual Financial — governance structures, risk management processes, and metrics established. King IV Principle 4 alignment supports ISSB governance requirements.\n\n**Partial:** Tshwane Medical Holdings, Lephalale Resources — climate risk identification in progress, Scope 1 & 2 emissions quantified, Scope 3 assessment needed.\n\n**Gap:** Kopanong Mining Group, Highveld Health, Southern Cross University — require climate scenario analysis, transition risk assessment, and Scope 3 value chain mapping.\n\n**JSE requirement:** JSE Sustainability Disclosure Guidance aligns with ISSB. Listed entities must prepare for mandatory adoption. Early movers gain competitive advantage in investor relations."}
-return null}
-var prompts=[["Portfolio overview","Show me ESG scores across all sectors"],["Sector breakdown","How do sectors compare on ESG performance?"],["Risk analysis","Which organisations have the highest risk?"],["Mining deep-dive","Analyse the mining sector in detail"],["Financial services","Show financial services ESG analysis"],["ISO compliance","What certifications do organisations hold?"],["GISTM assessment","Evaluate GISTM tailings compliance"],["ISSB readiness","Assess ISSB climate disclosure readiness"],["Audit schedule","What are the upcoming audit dates?"],["Executive summary","Generate a board-ready executive summary"]];
-prompts.forEach(function(p){var b=document.createElement("button");b.textContent=p[0];b.style.cssText="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);color:rgba(255,255,255,0.65);padding:.45rem .85rem;border-radius:8px;font-size:.78rem;cursor:pointer;font-family:system-ui;transition:all .2s";b.onmouseover=function(){b.style.borderColor="rgba(212,175,55,0.35)";b.style.color="#d4af37"};b.onmouseout=function(){b.style.borderColor="rgba(255,255,255,0.08)";b.style.color="rgba(255,255,255,0.65)"};b.onclick=function(){inp.value=p[1];doSend()};qp.appendChild(b)});
-addMsg("assistant","Welcome to the ESG Navigator AI Assistant.\n\nI provide multi-sector ESG analysis across **Mining**, **Health**, **Financial Services**, and **Education** — covering ISO 14001, ISO 45001, ISO 50001, ISO 27001, GISTM, ISSB (IFRS S1/S2), King IV, and JSE Sustainability Disclosure frameworks.\n\n**7 organisations** across **4 sectors** are available for analysis. Select a topic below or type your question.");
-inp.onkeydown=function(e){if(e.key==="Enter"){e.preventDefault();doSend()}};
-sbtn.onclick=function(){doSend()};
-function doSend(){var t=inp.value.trim();if(!t)return;inp.value="";qp.style.display="none";addMsg("user",t);setTimeout(function(){var r=analyze(t);if(!r)r="I can analyse **7 organisations** across **4 sectors** (Mining, Health, Financial Services, Education) covering ESG scoring, risk, compliance, and audit readiness.\n\nTry asking about:\n\n**Portfolio overview** — ESG scores across all sectors\n**Sector breakdown** — Compare sector performance\n**Risk analysis** — High-risk organisations and issues\n**Mining / Health / Financial / Education** — Sector deep-dives\n**ISO certifications** — Gap analysis\n**GISTM assessment** — Tailings management compliance\n**ISSB readiness** — Climate disclosure evaluation\n**Audit schedule** — Upcoming dates\n**Executive summary** — Board-ready overview";addMsg("assistant",r)},500)}
+const API='https://intellimat-repository-production-199f.up.railway.app';
+let companies=[],filtered=[],selected=null,activeSector=null;
+
+async function loadCompanies(){
+  try{
+    const r=await fetch(API+'/api/suppliers?limit=307');
+    const d=await r.json();
+    companies=d.companies||[];
+    filtered=[...companies];
+    renderSectors();
+    renderList();
+    document.getElementById('stats').textContent=companies.length+' companies loaded | '+new Set(companies.map(c=>c.sector).filter(Boolean)).size+' sectors';
+    addMsg('bot','Welcome to ESG Navigator Intelligence. I have **'+companies.length+' JSE-listed companies** loaded with full ESG analysis.\n\nYou can:\n- **Select a company** from the left panel for detailed analysis\n- **Ask questions** like "show me high risk mining companies" or "compare Standard Bank vs Discovery"\n- **Request reports** like "executive portfolio summary" or "sector breakdown"');
+  }catch(e){
+    document.getElementById('stats').textContent='⚠️ API offline — check Railway';
+    addMsg('bot','⚠️ Unable to connect to the ESG Navigator API. Please check that Railway is running.');
+  }
+}
+
+function renderSectors(){
+  const secs=[...new Set(companies.map(c=>c.sector).filter(Boolean))].sort();
+  const el=document.getElementById('sectors');
+  el.innerHTML='<button class="sector-btn active" onclick="filterSector(null)">All</button>'+secs.map(s=>'<button class="sector-btn" onclick="filterSector(\''+s+'\')">'+s+'</button>').join('');
+}
+
+function filterSector(s){
+  activeSector=s;
+  filtered=s?companies.filter(c=>c.sector===s):[...companies];
+  renderList();
+  document.querySelectorAll('.sector-btn').forEach(b=>b.classList.toggle('active',s?b.textContent===s:b.textContent==='All'));
+}
+
+function renderList(){
+  const q=document.getElementById('search').value.toLowerCase();
+  const show=filtered.filter(c=>!q||c.name.toLowerCase().includes(q)).slice(0,50);
+  document.getElementById('companyList').innerHTML=show.map(c=>{
+    const sc=c.esg_score||0;
+    const cls=sc>=75?'score-high':sc>=50?'score-mid':'score-low';
+    const sel=selected&&selected.id===c.id?'selected':'';
+    return'<div class="company-item '+sel+'" onclick="selectCompany('+c.id+')"><span>'+c.name+'</span><span class="score '+cls+'">'+sc+'</span></div>';
+  }).join('');
+}
+
+async function selectCompany(id){
+  const c=companies.find(x=>x.id===id);
+  if(!c)return;
+  selected=c;
+  renderList();
+  addMsg('user','Analyze **'+c.name+'**');
+  const loadId=addMsg('bot','<div class="loading"></div> Analyzing '+c.name+'...');
+  try{
+    const r=await fetch(API+'/api/suppliers/analyze/'+encodeURIComponent(c.name));
+    const d=await r.json();
+    if(d.success){
+      removeMsg(loadId);
+      addAnalysisCard(d.company,d.analysis);
+    }else{
+      updateMsg(loadId,'❌ Analysis failed: '+(d.error||'Unknown error'));
+    }
+  }catch(e){
+    updateMsg(loadId,'❌ Connection error: '+e.message);
+  }
+}
+
+function addAnalysisCard(c,a){
+  const e=c.environmental_score||0,s=c.social_score||0,g=c.governance_score||0;
+  const risk=c.risk_level||'unknown';
+  const riskColor=risk==='low'?'#22c55e':risk==='medium'?'#eab308':risk==='high'?'#f97316':'#ef4444';
+  const pos=a.sectorComparison?a.sectorComparison.position:'N/A';
+  const peers=a.sectorComparison?a.sectorComparison.peerCount:0;
+  const avgPeer=a.sectorComparison?a.sectorComparison.avgSectorEsgScore:0;
+  
+  const html='<div class="analysis-card"><h3>'+c.name+' — ESG Analysis</h3>'+
+    '<div class="metric-row"><span>Overall ESG Score</span><strong>'+(c.esg_score||'N/A')+'/100</strong></div>'+
+    '<div class="metric-row"><span>Sector</span><span>'+c.sector+' / '+c.industry+'</span></div>'+
+    '<div class="metric-row"><span>Risk Level</span><span style="color:'+riskColor+'">●</span> <span>'+risk.toUpperCase()+'</span></div>'+
+    '<div class="metric-row"><span>Archetype</span><span>'+(c.archetype||'N/A')+'</span></div>'+
+    '<div class="metric-row"><span>Sector Position</span><span>'+pos+' ('+peers+' peers, avg '+avgPeer+')</span></div>'+
+    '<div class="esg-bars">'+
+    '<div class="esg-bar bar-e"><label>Environmental: '+e+'</label><div class="bar"><div class="bar-fill" style="width:'+e+'%"></div></div></div>'+
+    '<div class="esg-bar bar-s"><label>Social: '+s+'</label><div class="bar"><div class="bar-fill" style="width:'+s+'%"></div></div></div>'+
+    '<div class="esg-bar bar-g"><label>Governance: '+g+'</label><div class="bar"><div class="bar-fill" style="width:'+g+'%"></div></div></div>'+
+    '</div>';
+  
+  const em=a.emissions||{};
+  const emHtml=(em.total?'<div class="metric-row"><span>Total Emissions</span><span>'+Number(em.total).toLocaleString()+' mtCO2e</span></div>':'')+
+    (em.scope1?'<div class="metric-row"><span>Scope 1</span><span>'+Number(em.scope1).toLocaleString()+'</span></div>':'')+
+    (em.scope2?'<div class="metric-row"><span>Scope 2</span><span>'+Number(em.scope2).toLocaleString()+'</span></div>':'')+
+    (em.scope3?'<div class="metric-row"><span>Scope 3</span><span>'+Number(em.scope3).toLocaleString()+'</span></div>':'');
+  
+  const card=html+(emHtml?emHtml:'')+'</div>';
+  addMsg('bot',card,true);
+}
+
+let msgId=0;
+function addMsg(type,content,isHtml){
+  const id='msg-'+(++msgId);
+  const d=document.createElement('div');
+  d.className='msg '+type;
+  d.id=id;
+  if(isHtml)d.innerHTML=content;
+  else d.innerHTML=content.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>');
+  document.getElementById('msgs').appendChild(d);
+  d.scrollIntoView({behavior:'smooth'});
+  return id;
+}
+function updateMsg(id,content){const el=document.getElementById(id);if(el)el.innerHTML=content.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>');}
+function removeMsg(id){const el=document.getElementById(id);if(el)el.remove();}
+
+// Chat input handling
+async function handleSend(){
+  const inp=document.getElementById('inp');
+  const q=inp.value.trim();
+  if(!q)return;
+  inp.value='';
+  addMsg('user',q);
+  
+  const lower=q.toLowerCase();
+  
+  // Portfolio overview
+  if(lower.match(/portfolio|overview|summary|all companies/)){
+    const secs={};
+    companies.forEach(c=>{const s=c.sector||'Unknown';if(!secs[s])secs[s]=[];secs[s].push(c);});
+    const avg=Math.round(companies.reduce((a,c)=>a+(c.esg_score||0),0)/companies.length);
+    let txt='**Portfolio Overview — '+companies.length+' Companies**\n\nAverage ESG: **'+avg+'/100**\n\n';
+    Object.keys(secs).sort().forEach(s=>{
+      const arr=secs[s];
+      const savg=Math.round(arr.reduce((a,c)=>a+(c.esg_score||0),0)/arr.length);
+      txt+=s+': '+arr.length+' companies (avg ESG: '+savg+')\n';
+    });
+    addMsg('bot',txt);
+    return;
+  }
+  
+  // High risk
+  if(lower.match(/high risk|critical|worst|laggard/)){
+    const loadId=addMsg('bot','<div class="loading"></div> Fetching high-risk companies...');
+    try{
+      const r=await fetch(API+'/api/suppliers/filter/high-risk');
+      const d=await r.json();
+      removeMsg(loadId);
+      if(d.companies&&d.companies.length){
+        let txt='**High Risk Companies ('+d.count+')**\n\n';
+        d.companies.forEach(c=>txt+=c.name+' — ESG: '+(c.esg_score||'N/A')+' | '+c.sector+' | Risk: '+(c.risk_level||'').toUpperCase()+'\n');
+        addMsg('bot',txt);
+      }else addMsg('bot','No high-risk companies found.');
+    }catch(e){addMsg('bot','❌ Error: '+e.message);}
+    return;
+  }
+  
+  // Top performers
+  if(lower.match(/top|best|leader|performer/)){
+    const loadId=addMsg('bot','<div class="loading"></div> Fetching top performers...');
+    try{
+      const r=await fetch(API+'/api/suppliers/filter/top-performers?limit=10');
+      const d=await r.json();
+      removeMsg(loadId);
+      let txt='**Top 10 ESG Performers**\n\n';
+      d.companies.forEach((c,i)=>txt+=(i+1)+'. '+c.name+' — **'+c.esg_score+'/100** | '+c.sector+' | E:'+c.environmental_score+' S:'+c.social_score+' G:'+c.governance_score+'\n');
+      addMsg('bot',txt);
+    }catch(e){addMsg('bot','❌ Error: '+e.message);}
+    return;
+  }
+  
+  // Sector query
+  const sectorMatch=lower.match(/mining|financial|retail|property|technology|construction|energy|health|telecom|industrial|logistics|banking|insurance|investment|media|chemical|food|paper|diversified|agriculture|automotive|education|hospitality/);
+  if(sectorMatch){
+    const loadId=addMsg('bot','<div class="loading"></div> Analyzing sector...');
+    const sectorCompanies=companies.filter(c=>c.sector&&c.sector.toLowerCase().includes(sectorMatch[0]));
+    removeMsg(loadId);
+    if(sectorCompanies.length){
+      const avg=Math.round(sectorCompanies.reduce((a,c)=>a+(c.esg_score||0),0)/sectorCompanies.length);
+      let txt='**'+sectorCompanies[0].sector+' Sector Analysis ('+sectorCompanies.length+' companies)**\n\nAverage ESG: **'+avg+'/100**\n\n';
+      sectorCompanies.sort((a,b)=>(b.esg_score||0)-(a.esg_score||0)).forEach(c=>{
+        txt+=c.name+' — ESG: '+(c.esg_score||'N/A')+' | E:'+(c.environmental_score||'-')+' S:'+(c.social_score||'-')+' G:'+(c.governance_score||'-')+' | Risk: '+(c.risk_level||'').toUpperCase()+'\n';
+      });
+      addMsg('bot',txt);
+    }else addMsg('bot','No companies found in that sector.');
+    return;
+  }
+  
+  // Company name search
+  const nameMatch=companies.find(c=>lower.includes(c.name.toLowerCase().substring(0,10)));
+  if(nameMatch){
+    selectCompany(nameMatch.id);
+    return;
+  }
+  
+  // Default response
+  addMsg('bot','I can help with:\n\n- **Select a company** from the panel for detailed ESG analysis\n- **"portfolio overview"** — full portfolio summary\n- **"top performers"** — best ESG scores\n- **"high risk"** — companies needing attention\n- **"mining sector"** (or any sector) — sector breakdown\n- **Type a company name** — e.g. "Standard Bank" for analysis\n\nTry one of these commands, or click any company on the left.');
+}
+
+document.getElementById('sbtn').addEventListener('click',handleSend);
+document.getElementById('inp').addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();handleSend();}});
+document.getElementById('search').addEventListener('input',renderList);
+
+loadCompanies();
 </script>
-<style>@keyframes fi{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}</style>
 </body>
 </html>
